@@ -1,0 +1,106 @@
+.nav-bar {
+    display: flex; 
+    justify-content: space-between;
+    align-items: flex-start;
+    flex-wrap: wrap;
+    width: 100vw;
+    height: 56px;
+    background-color: rgba(108, 117, 125);
+    color: white;
+    margin-bottom: 10px;
+}
+
+.navbar{
+    position: absolute; 
+    right: 10px;
+} 
+
+.navbar-bg-body {
+    background-color: rgba(108, 117, 125, 0.8);
+}
+
+/* .navbar-toggle.collapsed {
+    background-color: #fff !important;
+}
+
+.navbar-inverse .navbar-toggle, .navbar-inverse .navbar-toggle:hover, .navbar-inverse .navbar-toggle:focus{
+    background-color: #fff !important;
+} */
+.navbar {
+--bs-navbar-color: white;
+--bs-navbar-hover-color: white;
+--bs-navbar-disabled-color: white;
+--bs-navbar-active-color: white;
+--bs-navbar-brand-color: white;
+--bs-navbar-toggler-border-color: white;
+}
+
+.navbar>.container, .navbar>.container-fluid, .navbar>.container-lg, .navbar>.container-md, .navbar>.container-sm, .navbar>.container-xl, .navbar>.container-xxl {
+    justify-content: flex-end;
+}
+
+.nav-link {
+    font-size: 1.1rem;
+    padding: 5px; 
+}
+
+.nav-link:hover {
+    color: #ffc155;
+}
+
+.navbar-nav {
+    align-items: flex-end;
+}
+
+
+.site-name {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: row;
+    font-size: 2rem;
+    /* color: #ffffff; */
+    margin: 0;
+    padding: 5px;
+    position: absolute;
+    left: 0;
+}
+
+.site-name-item{
+    padding-right: 5px;
+}
+.shop-name{
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    font-weight: 500;
+}
+
+.menu{
+    display: flex;
+    flex-direction: row;
+    color: white;
+    margin: 0 30px;
+}
+
+ /* .menu .item{
+    margin-right: 15px;
+    text-transform: uppercase;
+}
+
+.menu a:link {
+    text-decoration: none;
+    font-weight: 600;
+    color: white;
+}
+      
+.menu a:visited {
+    text-decoration: none;
+    color: white;
+}
+
+.menu a:hover {
+    text-decoration: underline;
+}
+
+.menu a:active {
+    text-decoration: underline;
+} */
