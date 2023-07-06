@@ -59,7 +59,8 @@ router.post("/", (req, res) => {
                     saveDataToDB(productId, productInfo, res); // console.log(productInfo);  
                     //Видаляємо стару картинку в cloudinary
                     cloudinary.uploader.destroy(oldCloudinaryPublicId);
-                })}
+                })
+            }
     });
 });
 

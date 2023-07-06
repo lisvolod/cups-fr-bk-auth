@@ -1,10 +1,9 @@
 //Визначаємо клас, на основі якого будемо генерувати модальні вікна
 class CustomModal {
-    constructor(title, content, footer, event) {
+    constructor(title, content, footer) {
         this.title = title;
         this.content = content;
-        this.footer = footer;
-        this.event = event;
+        this.footer = footer;        
     }
 
     modalContaiter = document.querySelector(".modal-container");
@@ -63,16 +62,16 @@ const createAndEditProductModalContent = () => {
                 <table class="form-table">
                     <tr>
                         <td class="form-label"><label for="productName">Name:</label> </td>
-                        <td class="form-input"><input type="text" name="productName" id="productName" class="form-control" ></td>
+                        <td class="form-input"><input type="text" name="productName" id="productName" class="form-control" required></td>
                     </tr>
                     <tr>
                         <td class="form-label"><label for="productVolume">Volume:</label> </td>
-                        <td class="form-input"><input type="number" name="productVolume" id="productVolume" class="form-control" min="20" max="2000"></td>
+                        <td class="form-input"><input type="number" name="productVolume" id="productVolume" class="form-control" min="20" max="2000" required></td>
                     </tr>
                     <tr>
                         <td class="form-label"><label for="productMaterial">Material:</label> </td>
                         <td class="form-input">
-                            <select name="productMaterial" id="productMaterial" class="form-select" >
+                            <select name="productMaterial" id="productMaterial" class="form-select" required>
                                 <option>Glass</option>
                                 <option>Porcelian</option>
                                 <option>Silicon</option>
@@ -88,10 +87,10 @@ const createAndEditProductModalContent = () => {
                     </tr>
                     <tr>
                         <td class="form-label"><label for="productImage">Image:</label> </td>
-                        <td class="form-input"><input type="file" name="productImage" id="productImage" class="form-control" onchange="document.getElementById('formImage').src = window.URL.createObjectURL(this.files[0])"></td>
+                        <td class="form-input"><input type="file" name="productImage" id="productImage" class="form-control" onchange="document.getElementById('formImage').src = window.URL.createObjectURL(this.files[0])" required></td>
                     </tr>
                 </table>
-                <div class="modal-footer">
+                <div class="modal-form-footer">
                     <input type="submit" class="btn btn-success" id="submitProductBtn" value="Create">
                     <input type="reset" class="btn btn-danger" id="cancelProductBtn" data-close="true" value="Cancel">
                 </div>
@@ -120,18 +119,69 @@ function convertModalToCreate() {
 //
 const confirmModalTitle = `Removal confirmation`;
 const confirmModalContent = `Are you sure you want to remove this product?`;
-const confirmModalFooter =`<input type="submit" class="btn btn-danger" id="removeProductBtn" value="Remove">
-                           <input type="reset" class="btn btn-success" id="cancelProductBtn" data-close="true" value="Cancel">
-                            `;
+const confirmModalFooter =`<div class="confirmation-footer">
+                                <input type="submit" class="btn btn-danger" id="removeProductBtn" value="Remove">
+                                <input type="reset" class="btn btn-success" id="cancelProductBtn" data-close="true" value="Cancel">
+                            </div>`;
 const confirmModal = new CustomModal(confirmModalTitle, confirmModalContent, confirmModalFooter);
 confirmModal.create();
 
-// function removalConfirmation() {
-//     removeProductBtn.onclick = () => {return true;}
-    
-// }
+//
+// ********* Модальне вікно для авторизації ************
+//
+const loginModalTitle = `LogIn`;
+const loginModalContent = `<form name="loginForm" enctype="multipart/form-data" method="post">
+                                <table class="form-table">
+                                    <tr>
+                                        <td class="form-label"><label for="userLoginEmail">Email:</label> </td>
+                                        <td class="form-input"><input type="text" name="userLoginEmail" id="userLoginEmail" class="form-control" ></td>
+                                    </tr>
+                                    <tr>
+                                        <td class="form-label"><label for="userLoginPassword">Password:</label> </td>
+                                        <td class="form-input"><input type="password" name="userLoginPassword" id="userLoginPassword" class="form-control"></td>
+                                    </tr>
+                                    
+                                </table>
+                                <div class="modal-form-footer">
+                                    <input type="submit" class="btn btn-success" id="submitLoginBtn" value="LogIn">
+                                </div>
+                            </form>`  ;
 
+const loginModalFooter =`<div class="login-footer">
+                            <div>Not a member? </div>
+                            <div> <a href="#">SignUp</a>
+                        </div>`;
+const loginModal = new CustomModal(loginModalTitle, loginModalContent, loginModalFooter);
+loginModal.create();
 
+//
+// ********* Модальне вікно для реєстрації ************
+//
+const registrationModalTitle = `Registration`;
+const registrationModalContent = `<form name="registrationForm" enctype="multipart/form-data" method="post">
+                                <table class="form-table">
+                                    <tr>
+                                        <td class="form-label"><label for="userRegEmail">Email:</label> </td>
+                                        <td class="form-input"><input type="text" name="userRegEmail" id="userRegEmail" class="form-control" ></td>
+                                    </tr>
+                                    <tr>
+                                        <td class="form-label"><label for="userRegPassword">Password:</label> </td>
+                                        <td class="form-input"><input type="password" name="userRegPassword" id="userRegPassword" class="form-control"></td>
+                                    </tr>
+                                    <tr>
+                                        <td class="form-label"><label for="userRegConfirmPassword">Password confirm:</label> </td>
+                                        <td class="form-input"><input type="password" name="userRegConfirmPassword" id="userRegConfirmPassword" class="form-control"></td>
+                                    </tr>
+                                    
+                                </table>
+                                <div class="modal-form-footer">
+                                    <input type="submit" class="btn btn-success" id="submitRegistrationtBtn" value="Submit">
+                                </div>
+                            </form>`  ;
+
+const registrationModalFooter =``;
+const registrationModal = new CustomModal(registrationModalTitle, registrationModalContent, registrationModalFooter);
+registrationModal.create();
 
 
 
@@ -144,6 +194,12 @@ const closeListener = event => {
     }
     if (event.target.dataset.close && confirmModal) {
         confirmModal.close()
+    }
+    if (event.target.dataset.close && loginModal) {
+        loginModal.close()
+    }
+    if (event.target.dataset.close && registrationModal) {
+        registrationModal.close()
     }
 }
 

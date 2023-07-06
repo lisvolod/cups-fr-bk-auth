@@ -54,9 +54,42 @@
 
 .modal-footer {
     display: flex;
-    justify-content: space-between;
-    padding: 20px 30px 3px;
+    width: 100%;
+    /* justify-content: space-between; */
+    /* padding: 20px 30px 0px; */
 }
+
+.modal-form-footer {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    padding: 20px 30px 0px;
+}
+
+.confirmation-footer{
+    display: flex;
+    width: inherit;
+    justify-content: space-between;
+    padding: 0 30px 10px
+}
+
+.login-footer {
+    margin: 0 auto;
+    padding: 0;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 0.9rem;
+    
+
+    /* padding: 20px 30px 3px; */
+}
+
+.login-footer > div {
+    padding: 0 5px 5px;
+}
+
 
 .modal-overlay.modal-open {
     display: block;
