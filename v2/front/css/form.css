@@ -17,8 +17,20 @@
 
 .form-image-container{
     text-align: center;
+    height: 152px;
+
 }
 
 .form-image {
     height: 150px;
+}
+
+.form-email-eror {
+    margin: 0;
+    padding: 0;
+    height: 14px;
+    font-size: 0.8rem;
+    color: red;
+    text-align: center;
+    line-height: 0.8rem;
 }

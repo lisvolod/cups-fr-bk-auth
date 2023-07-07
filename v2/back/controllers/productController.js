@@ -60,7 +60,7 @@ export const createProduct = async (req, res) => {
                     }
                   }
                                
-                const { productId, productName, productVolume, productMaterial, oldCloudinaryPublicId, oldImagePath } = fields;
+                const { productId, productName, productVolume, productMaterial, productPrice, oldCloudinaryPublicId, oldImagePath } = fields;
                 const { productImage: [{ filepath }] } = files;
                 const { productImage: [{ originalFilename }] } = files;
                 
@@ -68,7 +68,8 @@ export const createProduct = async (req, res) => {
                 const productData = {
                     productName,        // Аналогічно до синтаксису productName: productName,
                     productVolume,
-                    productMaterial
+                    productMaterial,
+                    productPrice
                 };
                                   
                 // Перевіряємо чи проводилася зміна картинки на фронті

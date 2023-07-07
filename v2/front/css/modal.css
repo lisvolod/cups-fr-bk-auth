@@ -98,3 +98,8 @@
 .modal-overlay.modal-close {
     display: none;
 }
+
+.sign-up{
+    cursor: pointer;
+    color: #2196F3;
+}

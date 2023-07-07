@@ -1,4 +1,4 @@
-.element {
+.product {
     background-color: #f1f1f1;
     width: 250px;
     margin: 10px;
@@ -9,27 +9,34 @@
     border-radius: 10px;
 }
 
-.element-img {
+.product-img {
     width: 240px;
     height: 240px;
     margin: 10px auto;
 }
 
-.element-data {
+.product-data {
     text-align: center;
 }
 
-.element-name {
+.product-name {
     font-size: 0.9em;
     font-weight: bold;
     padding-bottom: 5px;
 }
 
-.element-text{
+.product-text{
     font-size: 0.9em;
     /* padding-bottom: 5px; */
 }
-.element-footer{
+
+.product-price{
+    color: #495057;
+    font-weight: bold;
+    font-size: 1.2rem;
+}
+
+.product-footer{
     display: flex;
     justify-content: space-between;
     padding: 0 36px 10px;
