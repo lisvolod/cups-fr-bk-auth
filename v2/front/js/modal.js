@@ -141,8 +141,16 @@ const loginModalContent = `<form name="loginForm" method="post">
                                         <td class="form-input"><input type="text" name="userLoginEmail" id="userLoginEmail" class="form-control" required></td>
                                     </tr>
                                     <tr>
+                                        <td></td>
+                                        <td class="form-email-eror" id="loginEmailError"></td>
+                                    </tr>
+                                    <tr>
                                         <td class="form-label"><label for="userLoginPassword">Password:</label> </td>
                                         <td class="form-input"><input type="password" name="userLoginPassword" id="userLoginPassword" class="form-control" required></td>
+                                    </tr>
+                                    <tr>
+                                        <td></td>
+                                        <td class="form-email-eror" id="loginPasswordError"></td>
                                     </tr>
                                     
                                 </table>
@@ -153,7 +161,7 @@ const loginModalContent = `<form name="loginForm" method="post">
 
 const loginModalFooter =`<div class="login-footer">
                             <div>Not a member? </div>
-                            <div class="sign-up" onclick="switchToRegistration()"> SignUp </div>
+                            <div class="switch-link" onclick="switchToRegistration()"> SignUp </div>
                         </div>`;
 const loginModal = new CustomModal(loginModalTitle, loginModalContent, loginModalFooter);
 loginModal.create();
@@ -199,7 +207,10 @@ const registrationModalContent = `<form name="registerForm" method="post">
                                 </div>
                             </form>`  ;
 
-const registrationModalFooter =``;
+const registrationModalFooter =`<div class="login-footer">
+                                    <div>Already member? </div>
+                                    <div class="switch-link" onclick="switchToLogin()"> LogIn </div>
+                                </div>`;
 const registrationModal = new CustomModal(registrationModalTitle, registrationModalContent, registrationModalFooter);
 registrationModal.create();
 
@@ -217,6 +228,11 @@ const clearHiddenProductFormAttrib = () => {
 const switchToRegistration = () => {
     loginModal.close();
     registrationModal.open();
+}
+
+const switchToLogin = () => {
+    registrationModal.close();
+    loginModal.open();
 }
 
 const closeListener = event => {

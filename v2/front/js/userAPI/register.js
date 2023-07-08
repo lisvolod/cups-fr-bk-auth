@@ -3,11 +3,11 @@
 ///
 
 // Функція для збирання значення полів форми реєстрації чи авторизації
-function collectUserFormData(formName) {
-    const currentForm = document.forms[formName];
-    let formData = new FormData(currentForm);
-    return formData;
-}
+// function collectUserFormData(formName) {
+//     const currentForm = document.forms[formName];
+//     let formData = new FormData(currentForm);
+//     return formData;
+// }
 
 // Функція для відправки запиту реєстраці 
 async function userRegistetion() {
@@ -24,14 +24,30 @@ async function userRegistetion() {
         headers: {
           'Content-Type': 'application/json',   // Встановлення Content-Type на "application/json"
         },
-        body: JSON.stringify(reqBody),         // Перетворення даних форми в JSON-рядок
+        credentials: 'include',                 // Don't forget to specify this if you need cookies
+        body: JSON.stringify(reqBody),          // Перетворення даних форми в JSON-рядок
       };
       
       fetch(`${backURL}/user/register`, requestOptions)
         .then(response => response.json())
         .then(data => {
-          // Обробка відповіді від сервера
-            console.log(data);
+            // Обробка відповіді від сервера
+            // Обробка повідомлення про наявну email
+            if (data.msg) {
+                document.getElementById('registerEmailError').innerText =`${data.msg}`
+            }
+            else {
+                // Очищуємо поля форми
+                document.forms["registerForm"].reset();
+                // Закриваємо модальне вікно
+                registrationModal.close();
+               
+                 // Реєструємо отримані дані про користувача 
+                // (для збереження стану авторизації після перезавантаження сторінки)
+                setUser(data);
+                // Рендеримо меню зареєстрованого користувача
+                navbarRender(getUser());
+            }
         })
         .catch(err => {
             console.error(err);
@@ -80,11 +96,7 @@ document.forms["registerForm"].addEventListener ('submit', async (e) => {
         await validatePassword();
         // console.log("Валідація успішна");
         await userRegistetion();
-        // Очищуємо поля форми
-        document.forms["registerForm"].reset();
-        // Закриваємо модальне вікно
-        registrationModal.close();
-
+        
       } catch (error) {
         console.log(error); // Помилка валідації пароля
       }

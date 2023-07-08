@@ -2,10 +2,11 @@
 // ***** Видалення продукту
 ///
 
-// Кнопка Remove
+// Кнопка Remove у модалці Removal confirmation
 const removeButton = document.getElementById('removeProductBtn');
 
-// Функція, яка повертає проміс, який буде вирішений (resolved) при натисканні кнопки Remove
+// Функція, яка повертає проміс, який буде вирішений (resolved) 
+// при натисканні кнопки Remove у модалці Removal confirmation
 function waitForRemoveButtonPress() {
         return new Promise((resolve, reject) => {
             removeButton.addEventListener('click', () => {
@@ -41,7 +42,7 @@ async function getAndShowAllProducts() {
     await fetch(`${backURL}/product`)
     .then(response => response.json())                      // Парсимо [object Response] 
     .then(data => {                                         // Парсимо [object Promise]
-            const dataContainer = document.querySelector(".dataContainer");
+            const dataContainer = document.querySelector(".data-container");
             dataContainer.innerHTML = "";                   // Очищуємо контейнер
             if (data.length) {
                 data.forEach(product => {
@@ -62,7 +63,7 @@ async function getAndShowAllProducts() {
                     </div>
                     `;
                     
-                    const dataContainer = document.querySelector(".dataContainer");
+                    const dataContainer = document.querySelector(".data-container");
                     dataContainer.appendChild(productCard);
                 });
             }

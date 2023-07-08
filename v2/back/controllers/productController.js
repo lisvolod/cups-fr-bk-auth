@@ -31,7 +31,7 @@ function saveDataToDB(productId, data, res){
     }
 }
 
-export const createProduct = async (req, res) => {
+export const createAndEditProduct = async (req, res) => {
     const productForm = formidable({
         multiples: true,                    // Вказуємо, що буде прилітати форма з кількома полями
         keepExtensions: true,               // Вказуємо, що потрібно зберігати розширення файла
@@ -41,19 +41,10 @@ export const createProduct = async (req, res) => {
     try {
         productForm.parse(req, async (err, fields, files) => {
             try {
-                if (err) {
-                    throw err
-                    // console.error("Error parsing the files...");
-                    // return res.status(400).json({
-                    //     status: "Fail",
-                    //     message: "There was an error parsing the files",
-                    //     error: err
-                    // });
-                }
-                
+                if (err) throw err
+                                
                 // formidable повертає значень полів форми у вигляді масиву
                 // перетворюємо їх у string
-                            
                 for (const key in fields) {
                     if (Array.isArray(fields[key])) {
                         fields[key] = fields[key].join(', ');
