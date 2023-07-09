@@ -21,6 +21,7 @@ async function removeProduct(a, b) {
         let deleteParams = JSON.stringify({_id:a, cloudinaryPublicId:b})
         await fetch(`${backURL}/product/`, {
             method: "DELETE",
+            credentials: 'include',                 // Don't forget to specify this if you need cookies
             headers: {
                 'Content-Type': 'application/json'
             },
@@ -39,32 +40,18 @@ async function removeProduct(a, b) {
 ///
 
 async function getAndShowAllProducts() {
-    await fetch(`${backURL}/product`)
+    await fetch(`${backURL}/product`, {
+        method: 'GET',
+        credentials: 'include'                 // Don't forget to specify this if you need cookies
+    })
     .then(response => response.json())                      // Парсимо [object Response] 
     .then(data => {                                         // Парсимо [object Promise]
             const dataContainer = document.querySelector(".data-container");
             dataContainer.innerHTML = "";                   // Очищуємо контейнер
             if (data.length) {
                 data.forEach(product => {
-                    let productCard = document.createElement("div");
-                    productCard.classList.add("product");
-                    
-                    productCard.innerHTML = `
-                    <div class="product-data">
-                        <img src="${product.productImage}" class="product-img">
-                        <div class="product-name">${product.productName}</div>
-                        <p class="product-text">Volume: <span class="product-volume">${product.productVolume}</span> ml</p> 
-                        <p class="product-text">Material: <span class="product-material">${product.productMaterial}</span></p>
-                        <p class="product-text">Price: <span class="product-price">${product.productPrice} &#x20b4 </span></p>  
-                    </div>
-                    <div class="product-footer">
-                        <button class="btn btn-primary" onclick="editProduct('${product._id}', '${product.productName}', '${product.productVolume}', '${product.productMaterial}', '${product.productPrice}','${product.productImage}', '${product.cloudinaryPublicId}')">Edit</button><span> </span>
-                        <button class="btn btn-danger" onclick="removeProduct('${product._id}', '${product.cloudinaryPublicId}')">Delete</button>
-                    </div>
-                    `;
-                    
-                    const dataContainer = document.querySelector(".data-container");
-                    dataContainer.appendChild(productCard);
+                    // console.log(product);
+                    productCardRender(product);
                 });
             }
             else {
@@ -111,7 +98,8 @@ async function sendProductData() {
     try {
         await fetch (`${backURL}/product`, {
             method: 'POST',
-            body: collectProductFormData('productForm')
+            credentials: 'include',
+            body: collectProductFormData('productForm'),
         }) 
     } catch (error) {
         console.error(error);

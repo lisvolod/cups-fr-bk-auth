@@ -8,6 +8,7 @@ async function userLogout() {
             removeUser()
             .then( () => {
                 navbarRender(getUser());
+                getAndShowAllProducts();
             })
             .catch(err => console.log(err));
             console.log(data);

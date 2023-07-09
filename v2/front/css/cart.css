@@ -1,11 +1,11 @@
-.cart-icon {
+.navbar-cart-icon {
     position: relative;
     font-size: 30px;
     margin-right: 15px;
     cursor: pointer;
 }
 
-.cart-icon-count {
+.navbar-cart-icon-count {
     width: 20px;
     height: 20px;
     text-align: center;

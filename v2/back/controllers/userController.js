@@ -62,22 +62,46 @@ export const userRegister = async (req, res) => {
 
 export const refreshToken = async (req, res) => {
     try {
-        const refreshToken = req.cookies.refreshToken;
-
+        // Парсимо куки і вибираємо з них accessToken
+        // console.log("req.headers.cookie=", req.headers.cookie);
+        const cookies = req.headers.cookie.split(';').reduce((acc, cookie) => {
+            const [name, value] = cookie.trim().split('=');
+            acc[name] = value;
+            return acc;
+          }, {});
+        
+        const refreshToken = cookies.refreshToken;
+          
         if (!refreshToken)  return res.status(401).json({ msg: "Помилка оновлення токена. Refreshtoken відсутній" });
   
+        new Promise((resolve, reject) => {
+            jwt.verify(refreshToken, process.env.REFRESH_TOKEN_SECRET, (err, decoded) => {
+                        if (err) { reject(err);} else {resolve(decoded);}
+                    });
+            })
+            .then(decoded => {
+            // Токен валідний, доступ до decoded даних
+            console.log(decoded);
+            // Отримання ідентифікатора користувача з refreshToken
+            const userId = decoded.id;
+            
+            // Оновлення токена доступу
+            const accessToken = jwt.sign({ userId }, process.env.ACCESS_TOKEN_SECRET, { expiresIn: '15m' });
+    
+            // Відправка нового токена в HTTP-Only куку на клієнт
+            res.cookie('accessToken', accessToken, { httpOnly: true, secure: true, sameSite: 'none' });
+            res.status(200).json({ msg: 'Оновлення токена успішне' });
+            
+            })
+            .catch(err => {
+                res.status(401).json({ message: 'Invalid access token' });
+            });
+        
+        
+        
         // Перевірка оновлювального токена
         const decoded = jwt.verify(refreshToken, process.env.REFRESH_TOKEN_SECRET);
-        console.log(decoded);
-        // Отримання ідентифікатора користувача з refreshToken
-        const userId = decoded.userId;
-
-        // Оновлення доступу до токена
-        const accessToken = jwt.sign({ userId }, process.env.ACCESS_TOKEN_SECRET, { expiresIn: '15m' });
-
-        // Відправка нового токена через HTTP-Only куку
-        res.cookie('accessToken', accessToken, { httpOnly: true, secure: true, sameSite: 'none' });
-        res.status(200).json({ msg: 'Оновлення токена успішне' });
+        
 
     } catch (error) {
         console.error('Помилка перевірки або оновлення токена:', error);

@@ -77,6 +77,7 @@ const createAndEditProductModalContent = () => {
                                 <option>Silicon</option>
                                 <option>Plastic</option>
                                 <option>Paper</option>
+                                <option>Metal</option>
                             </select>
                         </td>
                     </tr>

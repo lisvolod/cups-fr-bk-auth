@@ -41,6 +41,7 @@ async function userLogin() {
                 setUser(data);
                 // Рендеримо меню авторизованого користувача
                 navbarRender(getUser());
+                getAndShowAllProducts();
             }
         })
         .catch(err => {

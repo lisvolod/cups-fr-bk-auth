@@ -33,8 +33,8 @@ function navbarRender(user) {
             // Меню аторизованого покупця
             navBar.innerHTML =`<nav class="navbar navbar-light navbar-expand-md navbar-bg-body">
                                     <div class="container">
-                                        <div class="fa fa-shopping-cart cart-icon" id="cart">
-                                            <div class="cart-icon-count" id="cartIconCount">${user.cart.length}</div>
+                                        <div class="fa fa-shopping-cart navbar-cart-icon" id="cart">
+                                            <div class="navbar-cart-icon-count" id="cartIconCount">${user.cart.length}</div>
                                         </div>
                                         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#n_bar" aria-controls="n_bar" aria-expanded="true" aria-label="Toggle navigation">
                                             <span class="navbar-toggler-icon"></span>
