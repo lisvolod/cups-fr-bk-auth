@@ -2,14 +2,8 @@ import jwt from 'jsonwebtoken';
 
 export const auth = async (req, res, next) => {
     try {
-        // Парсимо куки і вибираємо з них accessToken
-        const cookies = req.headers.cookie.split(';').reduce((acc, cookie) => {
-            const [name, value] = cookie.trim().split('=');
-            acc[name] = value;
-            return acc;
-          }, {});
         
-        const accessToken = cookies.accessToken;
+        const accessToken = req.cookies.accessToken;
         
         if(!accessToken) return res.status(400).json({msg: "Authorization error"})
         

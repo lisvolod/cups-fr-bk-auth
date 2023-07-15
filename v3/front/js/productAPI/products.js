@@ -40,6 +40,23 @@ async function removeProduct(a, b) {
 // ***** Показати всі продукти
 ///
 
+// Функція для рендерингу кнопки "Create New Product"
+function btnRender() {
+    const btnContainer = document.querySelector(".btn-container");
+    btnContainer.innerHTML = ``;
+    // Перевіряємо, чи короситувач є адміністатором
+    const user = getUser();
+    // Якщо адміністратор - малюємо кнопку "Створити продукт"
+    
+    if ( user && user.isAdmin) {
+        btnContainer.innerHTML = `<button type="button" class="btn btn-secondary" id="createBtn" onclick="openProductModalWithCreate()">Create New Product</button>`;
+    }
+}
+
+
+
+
+
 async function getAndShowAllProducts() {
     await fetch(`${backURL}/product`, {
         method: 'GET',
@@ -48,11 +65,14 @@ async function getAndShowAllProducts() {
     })
     .then(response => response.json())                      // Парсимо [object Response] 
     .then(data => {                                         // Парсимо [object Promise]
+            btnRender();            
             const dataContainer = document.querySelector(".data-container");
-            dataContainer.innerHTML = "";                   // Очищуємо контейнер
+            dataContainer.innerHTML = "";                   // Очищуємо контейнер продуктів
+            
+            // Перевіряємо, чи є продукти
             if (data.length) {
                 data.forEach(product => {
-                    // console.log(product);
+                    // Якщо є - рендиримо карточки продуктів
                     productCardRender(product);
                 });
             }

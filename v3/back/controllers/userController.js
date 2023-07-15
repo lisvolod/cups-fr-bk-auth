@@ -59,14 +59,7 @@ export const userRegister = async (req, res) => {
 
 export const refreshToken = async (req, res) => {
     try {
-        // Парсимо куки і вибираємо з них accessToken
-        const cookies = req.headers.cookie.split(';').reduce((acc, cookie) => {
-            const [name, value] = cookie.trim().split('=');
-            acc[name] = value;
-            return acc;
-          }, {});
-        
-        const refreshToken = cookies.refreshToken;
+        const refreshToken = req.cookies.refreshToken;
           
         if (!refreshToken)  return res.status(401).json({ msg: "Помилка оновлення токена. Refreshtoken відсутній" });
   

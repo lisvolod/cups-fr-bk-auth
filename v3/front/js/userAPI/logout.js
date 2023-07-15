@@ -6,9 +6,10 @@ async function userLogout() {
     })
         .then(response => response.json())
         .then(data => {
-            removeUser()
+            clearStorage()
             .then( () => {
                 navbarRender(getUser());
+                btnRender();
                 getAndShowAllProducts();
             })
             .catch(err => console.log(err));

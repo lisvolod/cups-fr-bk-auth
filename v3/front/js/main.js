@@ -1,0 +1,3 @@
+navbarRender(getUser());
+getAndShowAllProducts();
+

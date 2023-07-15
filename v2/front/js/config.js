@@ -1,12 +1,14 @@
-const backURL = 'http://localhost:4000'
+// const backURL = `https://cups-store.onrender.com`;
+// Змінити backURL на `http://localhost:4000` при запуску на локальному сервері;
+const backURL = `http://localhost:4000`;
 
 const getUser = () => {
     return JSON.parse(localStorage.getItem('user'));
-}
+};
 
 const removeUser = async () => {
     localStorage.removeItem('user')
-}
+};
 
 const setUser = (user) => {
     localStorage.setItem('user', JSON.stringify(user));
@@ -15,6 +17,7 @@ const setUser = (user) => {
 async function refreshToken() {
         return fetch(`${backURL}/user/refresh_token`, {
         method: 'POST',
+        mode: 'cors', 
         credentials: 'include'
       })
         .then(response => response.json())

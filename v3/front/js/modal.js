@@ -9,7 +9,7 @@ class CustomModal {
     modalContaiter = document.querySelector(".modal-container");
     modalOverlay = document.createElement("div");
     
-    create() {
+    create(name) {
         this.modalOverlay = document.createElement("div");
         this.modalOverlay.classList.add("modal-overlay");
         this.modalOverlay.classList.add("modal-close");
@@ -19,7 +19,7 @@ class CustomModal {
         <div class="modal-window">
         
             <div class="modal-header">
-                <span class="modal-title" id="modalTitle">${this.title}</span>
+                <span class="modal-title" id="${name}">${this.title}</span>
                 <span class="modal-close-btn" data-close="true">&times;</span>
             </div>
         
@@ -106,17 +106,27 @@ const productModalTitle = `Create product`;
 const productModalContent = createAndEditProductModalContent()
 const productModalFooter =``;
 const productModal = new CustomModal(productModalTitle, productModalContent, productModalFooter);
-productModal.create();
+productModal.create('prd');
 
 //Функції для зміни режиму вікна Створення/Редагування
+
+
+
 function convertModalToEdit() {
-    document.getElementById('modalTitle').innerText = "Edit pdoduct";
+    
+    document.getElementById('prd').innerText = "Edit product";
     document.getElementById('submitProductBtn').value = "Confirm" 
 }
 
 function convertModalToCreate() {
-    document.getElementById('modalTitle').innerText = "Create pdoduct";
+    
+    document.getElementById('prd').innerText = "Create product";
     document.getElementById('submitProductBtn').value = "Create" 
+}
+
+function openProductModalWithCreate() {
+    convertModalToCreate();
+    productModal.open();
 }
 
 //
@@ -129,7 +139,7 @@ const confirmModalFooter =`<div class="confirmation-footer">
                                 <input type="reset" class="btn btn-success" id="cancelProductBtn" data-close="true" value="Cancel">
                             </div>`;
 const confirmModal = new CustomModal(confirmModalTitle, confirmModalContent, confirmModalFooter);
-confirmModal.create();
+confirmModal.create("cfm");
 
 //
 // ********* Модальне вікно для авторизації ************
@@ -165,7 +175,7 @@ const loginModalFooter =`<div class="login-footer">
                             <div class="switch-link" onclick="switchToRegistration()"> SignUp </div>
                         </div>`;
 const loginModal = new CustomModal(loginModalTitle, loginModalContent, loginModalFooter);
-loginModal.create();
+loginModal.create('lgn');
 
 //
 // ********* Модальне вікно для реєстрації ************
@@ -213,11 +223,57 @@ const registrationModalFooter =`<div class="login-footer">
                                     <div class="switch-link" onclick="switchToLogin()"> LogIn </div>
                                 </div>`;
 const registrationModal = new CustomModal(registrationModalTitle, registrationModalContent, registrationModalFooter);
-registrationModal.create();
+registrationModal.create('rgstr');
 
 
+//
+// ********* Модальне вікно для створення та редагування продукту ************
+// 
 
-// ********* Функціонал для закривання модальних вікон та очищення форм ********
+const createAndEditCatgoryModalContent = () => {
+    return `<form name="categoryForm">
+                <table class="form-table">
+                    <tr>
+                        <td class="form-label"><label for="categoryName">Category name:</label> </td>
+                        <td class="form-input"><input type="text" name="categoryName" id="categoryName" class="form-control" required></td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td class="form-email-eror" id="categoryNameError"></td>
+                    </tr>
+                </table>
+                <div class="modal-form-footer">
+                    <input type="submit" class="btn btn-success" id="submitCategoryBtn" value="Create">
+                </div>
+                
+            </form>`    
+}
+
+const categoryModalTitle = `Create category`;
+const categoryModalContent = createAndEditCatgoryModalContent();
+const categoryModalFooter =``;
+const categoryModal = new CustomModal(categoryModalTitle, categoryModalContent, categoryModalFooter);
+categoryModal.create('ctg');
+
+//Функції для зміни режиму вікна Створення/Редагування категорій
+function convertCategoryModalToEdit() {
+    document.getElementById('ctg').innerText = "Edit category";
+    document.getElementById('submitCategoryBtn').value = "Confirm" 
+}
+
+function convertCategoryModalToCreate() {
+    document.getElementById('ctg').innerText = "Create category";
+    document.getElementById('submitCategoryBtn').value = "Create" 
+}
+
+function openCategoryModalWithCreate() {
+    convertCategoryModalToCreate();
+    categoryModal.open();
+}
+
+///
+/// ********* Функціонал для закривання модальних вікон та очищення форм ********
+///
 const modalWindowsCollection = document.getElementsByClassName("modal-overlay");
 
 const clearHiddenProductFormAttrib = () => {
@@ -249,6 +305,9 @@ const closeListener = event => {
     }
     if (event.target.dataset.close && registrationModal) {
         registrationModal.close()
+    }
+    if (event.target.dataset.close && categoryModal) {
+        categoryModal.close()
     }
 }
 

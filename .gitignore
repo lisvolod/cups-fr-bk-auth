@@ -4,6 +4,8 @@
 /v1/back/.env
 /v2/back/node_modules
 /v2/back/.env
+/v3/back/node_modules
+/v3/back/.env
 .DS_Store
 .env
 .env.local
