@@ -25,9 +25,11 @@ async function userLogin() {
         .then(data => {
             // Обробка відповіді від сервера
             // Обробка повідомлення про наявну email
+            console.log(data);
             if (data.emailMsg) {
-                document.getElementById('loginEmailError').innerText =`${data.emailMsg}`
-            }
+                document.getElementById('loginEmailError').innerText =`${data.emailMsg}`;
+                
+            } else
             if (data.pwdMsg) {
                 document.getElementById('loginPasswordError').innerText =`${data.pwdMsg}`
             }
@@ -44,6 +46,8 @@ async function userLogin() {
                 navbarRender(getUser());
                 // Рендеримо карточки продуктів
                 getAndShowAllProducts();
+                // Забираємо категорії товарів з сервера
+                if (data.isAdmin) { getAllCategoriesFromDB() };
             }
         })
         .catch(err => {

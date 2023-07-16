@@ -44,11 +44,15 @@ class CustomModal {
         this.modalOverlay.classList.add("modal-close");
         document.getElementById('formImage').removeAttribute("src");
         //Закриваємо випадаюче меню в адаптиві при закриванні модального вікна
-        document.getElementById("n_bar").classList.remove('show');
+        dropDownClose();
        
     }
-
 }
+
+function dropDownClose() {
+    document.getElementById("n_bar").classList.remove('show');
+}
+
 
 //
 // ********* Модальне вікно для створення та редагування продукту ************
@@ -133,7 +137,7 @@ function openProductModalWithCreate() {
 // ********* Модальне вікно для підтвердження видалення продукту ************
 //
 const confirmModalTitle = `Removal confirmation`;
-const confirmModalContent = `Are you sure you want to remove this product?`;
+const confirmModalContent = `Are you sure you want to remove?`;
 const confirmModalFooter =`<div class="confirmation-footer">
                                 <input type="submit" class="btn btn-danger" id="removeProductBtn" value="Remove">
                                 <input type="reset" class="btn btn-success" id="cancelProductBtn" data-close="true" value="Cancel">
@@ -225,51 +229,65 @@ const registrationModalFooter =`<div class="login-footer">
 const registrationModal = new CustomModal(registrationModalTitle, registrationModalContent, registrationModalFooter);
 registrationModal.create('rgstr');
 
-
 //
-// ********* Модальне вікно для створення та редагування продукту ************
+// ********* Модалки дляроботи з категоріми продуктів
+//
+// ********* Модальне вікно для створення категорії продуктів ************
 // 
 
-const createAndEditCatgoryModalContent = () => {
-    return `<form name="categoryForm">
+const createCatgoryModalContent = () => {
+    return `<form name="createCategoryForm">
                 <table class="form-table">
                     <tr>
-                        <td class="form-label"><label for="categoryName">Category name:</label> </td>
-                        <td class="form-input"><input type="text" name="categoryName" id="categoryName" class="form-control" required></td>
+                        <td class="form-label"><label for="createCategoryName">Category name:</label> </td>
+                        <td class="form-input"><input type="text" name="createCategoryName" id="createCategoryName" class="form-control" required></td>
                     </tr>
                     <tr>
                         <td></td>
-                        <td class="form-email-eror" id="categoryNameError"></td>
+                        <td class="form-email-eror" id="createCategoryNameError"></td>
                     </tr>
                 </table>
                 <div class="modal-form-footer">
-                    <input type="submit" class="btn btn-success" id="submitCategoryBtn" value="Create">
+                    <input type="submit" class="btn btn-success" id="submitCreateCategoryBtn" value="Create">
                 </div>
                 
             </form>`    
 }
 
-const categoryModalTitle = `Create category`;
-const categoryModalContent = createAndEditCatgoryModalContent();
-const categoryModalFooter =``;
-const categoryModal = new CustomModal(categoryModalTitle, categoryModalContent, categoryModalFooter);
-categoryModal.create('ctg');
+const createCatgoryModalTitle = `Create category`;
+const createCatgoryModalFooter =``;
+const createCatgoryModal = new CustomModal(createCatgoryModalTitle, createCatgoryModalContent(), createCatgoryModalFooter);
+createCatgoryModal.create('crCtg');
 
-//Функції для зміни режиму вікна Створення/Редагування категорій
-function convertCategoryModalToEdit() {
-    document.getElementById('ctg').innerText = "Edit category";
-    document.getElementById('submitCategoryBtn').value = "Confirm" 
+// ********* Модальне вікно для редагування категорії продуктів ************
+
+const editCatgoryModalContent = () => {
+    return `<form name="editCategoryForm">
+                <input type="hidden" id="editCategoryId" name="editCategoryId">
+                <table class="form-table">
+                    <tr>
+                        <td class="form-label"><label for="editCategoryName">Category name:</label> </td>
+                        <td class="form-input"><input type="text" name="editCategoryName" id="editCategoryName" class="form-control" required></td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td class="form-email-eror" id="editCategoryNameError"></td>
+                    </tr>
+                </table>
+                <div class="modal-form-footer">
+                    <input type="submit" class="btn btn-success" id="submitEditCategoryBtn" value="Confirm">
+                </div>
+                
+            </form>`    
 }
 
-function convertCategoryModalToCreate() {
-    document.getElementById('ctg').innerText = "Create category";
-    document.getElementById('submitCategoryBtn').value = "Create" 
-}
+const editCatgoryModalTitle = `Edit category`;
+const editCatgoryModalFooter =``;
+const editCatgoryModal = new CustomModal(editCatgoryModalTitle, editCatgoryModalContent(), editCatgoryModalFooter);
+editCatgoryModal.create('edCtg');
 
-function openCategoryModalWithCreate() {
-    convertCategoryModalToCreate();
-    categoryModal.open();
-}
+
+
 
 ///
 /// ********* Функціонал для закривання модальних вікон та очищення форм ********
@@ -306,8 +324,11 @@ const closeListener = event => {
     if (event.target.dataset.close && registrationModal) {
         registrationModal.close()
     }
-    if (event.target.dataset.close && categoryModal) {
-        categoryModal.close()
+    if (event.target.dataset.close && createCatgoryModal) {
+        createCatgoryModal.close()
+    }
+    if (event.target.dataset.close && editCatgoryModal) {
+        editCatgoryModal.close()
     }
 }
 

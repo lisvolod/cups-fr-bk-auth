@@ -1,86 +1,185 @@
-function categoryRender() {
+const categoryRender = async () => {
+    
+    //Закриваємо випадаюче меню в адаптиві 
+    dropDownClose();
     const btnContainer = document.querySelector(".btn-container");
     // Очищуємо контейнер кнопок
     btnContainer.innerHTML = ``;
-    btnContainer.innerHTML = `<button type="button" class="btn btn-secondary" id="createBtn" onclick="openCategoryModalWithCreate()">Create New Category of Products</button>`;
+    btnContainer.innerHTML = `<button type="button" class="btn btn-secondary" id="createCtgBtn" onclick="createCatgoryModal.open()">Create New Category of Products</button>`;
     
     // Очищуємо контейнер даних
     const dataContainer = document.querySelector(".data-container");
-    dataContainer.innerHTML = "";                   
+    dataContainer.innerHTML = "";        
+    
+    // Створюємо контейнер для карточок категорій
+    const categoryContainer = document.createElement("div");
+    categoryContainer.classList.add("category-container");
+    dataContainer.appendChild(categoryContainer);
+    
+    // Перевіряємо, чи є категорії
+    const catArr = getCategories();
+    
+    // console.log(catArr);
+    
+    if (catArr.length) {
+        catArr.forEach(category => {
+            dropDownClose();
+            
+            // Якщо є - рендиримо карточки продуктів
+            
+            categoryCardRender(category);
+        });
+    }
+    else {
+        const dataContainer = document.querySelector(".data-container");
+        const categoryCard = document.createElement("div");
+        categoryCard.classList.add("category-card");
+        categoryCard.innerHTML = `<div style='color:red'>
+                                        <h1 style='color:red'>No categories found yet. </h1>
+                                        <h1>Create some products category...</h1>
+                                    </div>`;
+        dataContainer.appendChild(categoryCard); 
+    }
 }
 
 
-async function validateCategoryName() {
-    const category = document.getElementById('categoryName').value.trim();
-    const regExp = /^\w+$/;
+async function validateCategoryName(valuePath, errMsgPath) {
+    const category = document.getElementById(valuePath).value.trim();
+    const regExp = /^\p{L}+$/u;
     const isValid = regExp.test(category);
     return new Promise ((res, rej) => {
         if (!isValid) {
-            document.getElementById('categoryNameError').innerText = 'Use only one word';
+            document.getElementById(errMsgPath).innerText = 'Use only one word with no numbers';
         } else {
             res();
         }
     })
 }
 
-async function sendCategorytData() {
-    const category = document.getElementById('categoryName').value.trim();
-    const reqBody = {
-        category
-    }
-    fetch (`${backURL}/category`, {
-        method: 'POST',
-        mode: 'cors',
-        credentials: 'include',
-        headers: {
-            'Content-Type': 'application/json',   // Встановлення Content-Type на "application/json"
-        },
-        body: JSON.stringify(reqBody),
-    })
-    .then(response => response.json())
-    .then(data => {
-        // Обробка відповіді від сервера
-        // Обробка повідомлення про наявну email
-        if (data.msg) {
-            document.getElementById('categoryNameError').innerText =`${data.msg}`
+async function sendCategorytData(route, form, valuePath, errMsgPath, id) {
+    return new Promise ((resolve, reject) => {
+        const categoryName = document.getElementById(valuePath).value.trim();
+        const reqBody = {
+            categoryName: categoryName,
+            categoryId: id
         }
-        else {
-            // Очищуємо поля форми
-            document.forms["categoryForm"].reset();
-            // Закриваємо модальне вікно
-            categoryModal.close();
-            
-                // Реєструємо отримані дані про користувача 
-            // (для збереження стану авторизації після перезавантаження сторінки)
-            setCategories(data);
-            // Рендеримо меню зареєстрованого користувача
-            // navbarRender(getUser());
-            // getAndShowAllProducts();
+        // console.log('reqBody', reqBody);
+        fetch (`${backURL}/category/${route}`, {
+            method: 'POST',
+            mode: 'cors',
+            credentials: 'include',
+            // Встановлення Content-Type на "application/json"
+            headers: {
+                'Content-Type': 'application/json',   
+            },
+            body: JSON.stringify(reqBody),
+        })
+        .then(response => response.json())
+        .then(data => {
+            // Обробка відповіді від сервера
+            // Обробка повідомлення про наявну email
+            if (data.msg) {
+                document.getElementById(`${errMsgPath}`).innerText =`${data.msg}`
+            }
+            else {
+                // Очищуємо поля форми
+                document.forms[form].reset();
+                // Закриваємо модальне вікно
+                createCatgoryModal.close();
+                editCatgoryModal.close();
+              
+            }
+            resolve();
+        })
+        .catch(err => {
+            console.error(err);
+            reject(err)
+        });  
+    })
+    
+}
+
+async function getAllCategoriesFromDB() {
+    return new Promise ( (resolve, reject) => {
+        fetch (`${backURL}/category`, {
+            method: 'GET',
+            mode: 'cors',
+            credentials: 'include'       
+        })
+        .then(response => response.json())
+        .then(data => {
+            // Обробка відповіді від сервера
+            // Обробка повідомлення про наявну email
+            if (data.msg) {
+                console.log(data.msg);
+            } else {
+                setCategories(data);
+            }
+            resolve();
+        })
+        .catch(err => {
+            console.error(err);
+            reject(err);
+        });  
+    })
+    
+}
+
+const removeCategory = async (id) => {
+    return new Promise ( async (resolve, reject) => {
+        try {
+            confirmModal.open();
+            await waitForRemoveButtonPress();    // Зупинити виконання до натискання кнопки
+            // let deleteParams = JSON.stringify({_id:a, cloudinaryPublicId:b})
+            await fetch(`${backURL}/category/${id}`, {
+                method: "DELETE",
+                mode: 'cors',
+                credentials: 'include',                 // Don't forget to specify this if you need cookies
+                })
+                .then( async () => {
+                    removeButton.removeEventListener('click', () => {resolve();}); // Видалити обробник для економії пам'яті
+                    confirmModal.close();
+                    await getAllCategoriesFromDB();
+                    categoryRender(); 
+                })
+        } catch (error) {
+            console.log(error);
+            reject(error);
         }
     })
-    .catch(err => {
-        console.error(err);
-    });  
 }
 
 
+const editCategory = async (id, name) => {
+    document.getElementById('editCategoryId').setAttribute("value", id);
+    document.getElementById('editCategoryName').value = name;
+    editCatgoryModal.open();
+}
 
 
-// Обробник відправки форми
-document.forms["categoryForm"].addEventListener ('submit', async (e) => {
+// Обробники відправки форм
+document.forms["createCategoryForm"].addEventListener ('submit', async (e) => {
     e.preventDefault();
-    await validateCategoryName();
-    await sendCategorytData();
-    
-    
-    // convertModalToCreate();
-    // sendCategorytData()
-    // .then( () => {getAndShowAllProducts()} )
-    // .catch (err => console.error(err)) ;    
+    await validateCategoryName('createCategoryName' ,'createCategoryNameError');
+    await sendCategorytData('create','createCategoryForm','createCategoryName', 'createCategoryNameError' );
+    await getAllCategoriesFromDB();
+    categoryRender(); 
 })
 
+document.forms["editCategoryForm"].addEventListener ('submit', async (e) => {
+    e.preventDefault();
+    const id = document.getElementById('editCategoryId').value;
+    await validateCategoryName('editCategoryName' ,'editCategoryNameError');
+    await sendCategorytData('edit','editCategoryForm','editCategoryName', 'editCategoryNameError', id );
+    await getAllCategoriesFromDB();
+    categoryRender();
+})
 
 // Очищуємо повідомлення про помилки коли поля форми у фокусі 
-categoryName.addEventListener('focus', () => {
-    document.getElementById('categoryNameError').innerText = '';
+createCategoryName.addEventListener('focus', () => {
+    document.getElementById('createCategoryNameError').innerText = '';
+});
+
+editCategoryName.addEventListener('focus', () => {
+    document.getElementById('editCategoryNameError').innerText = '';
 });

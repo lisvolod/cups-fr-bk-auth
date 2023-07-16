@@ -65,6 +65,9 @@ async function getAndShowAllProducts() {
     })
     .then(response => response.json())                      // Парсимо [object Response] 
     .then(data => {                                         // Парсимо [object Promise]
+            
+            // Закриваємо випадаюче меню в адаптиві 
+            dropDownClose();
             btnRender();            
             const dataContainer = document.querySelector(".data-container");
             dataContainer.innerHTML = "";                   // Очищуємо контейнер продуктів
@@ -72,6 +75,7 @@ async function getAndShowAllProducts() {
             // Перевіряємо, чи є продукти
             if (data.length) {
                 data.forEach(product => {
+                    dropDownClose();
                     // Якщо є - рендиримо карточки продуктів
                     productCardRender(product);
                 });

@@ -39,7 +39,7 @@ async function refreshToken() {
        
 }
 
-function setCategories(categories){
+const setCategories = (categories) => {
     localStorage.setItem('categories', JSON.stringify(categories));
 }
 
@@ -50,6 +50,6 @@ const getCategories = () => {
 
 
 
-// Оновлювати токен кожні 10 хвилин
-setInterval(refreshToken, 10 * 60 * 1000);
+// Оновлювати токен кожні 3 хвилин
+setInterval(refreshToken, 3 * 60 * 1000);
 

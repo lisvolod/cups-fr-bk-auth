@@ -28,6 +28,7 @@ export const userRegister = async (req, res) => {
         .then(savedUser => {
             // Вибираємо потірбні поля для відправки на клієнт
             const reqUser = {
+                id: savedUser._id,
                 name: savedUser.name,
                 // email: savedUser.email,
                 isAdmin: savedUser. isAdmin,
@@ -123,6 +124,7 @@ export const userLogin = async (req, res) => {
                         // Якщо авторизація успішна
                         // Вибираємо окремі поля користувача для відправки на клієнт
                         const logedUser = {
+                            id: user._id,
                             name: user.name,
                             // email: user.email,
                             isAdmin: user. isAdmin,
