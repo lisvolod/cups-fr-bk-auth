@@ -1,30 +1,30 @@
 import mongoose from "mongoose";
 
 const productSchema = new mongoose.Schema({
-    producCategory: {
+    category: {
         type: String,
         required: true
     },
-    productName: {
+    name: {
         type: String,
         required: true,
         trim: true
     },
-    productVolume: {
+    volume: {
         type:Number,
         required: true,
         trim: true
     },
-    productMaterial: {
+    material: {
         type: String,
         required: true,
     },
-    productPrice: {
+    price: {
         type: Number,
         trim: true,
         required: true,
     },
-    productImage: {
+    image: {
         type:String,
         required: true,
 

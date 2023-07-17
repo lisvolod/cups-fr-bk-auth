@@ -57,17 +57,17 @@ export const createAndEditProduct = async (req, res) => {
                 
                 // Починаємо формувати об'єкт для запису в БД
                 const productData = {
-                    producCategory,
-                    productName,        // Аналогічно до синтаксису productName: productName,
-                    productVolume,
-                    productMaterial,
-                    productPrice
+                    category: producCategory,
+                    name: productName,        
+                    volume: productVolume,
+                    material:productMaterial,
+                    price:productPrice
                 };
                                   
                 // Перевіряємо чи проводилася зміна картинки на фронті
                 if (!originalFilename) {
                     // Якщо картинка не мінялася - додаємо в об'єкт старі поля
-                    productData.productImage = oldImagePath;
+                    productData.image = oldImagePath;
                     productData.cloudinaryPublicId = oldCloudinaryPublicId;
                     saveDataToDB(productId, productData, res)
                 }
@@ -76,7 +76,7 @@ export const createAndEditProduct = async (req, res) => {
                     try {
                         cloudinary.uploader.upload(filepath, (err, resultCloudinaryImage) => {
                         if (err) { console.warn(err); }
-                        productData.productImage = resultCloudinaryImage.url;
+                        productData.image = resultCloudinaryImage.url;
                         productData.cloudinaryPublicId = resultCloudinaryImage.public_id;
                         saveDataToDB(productId, productData, res); 
                         //Видаляємо стару картинку в cloudinary
