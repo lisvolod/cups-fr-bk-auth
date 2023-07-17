@@ -51,12 +51,13 @@ export const createAndEditProduct = async (req, res) => {
                     }
                   }
                                
-                const { productId, productName, productVolume, productMaterial, productPrice, oldCloudinaryPublicId, oldImagePath } = fields;
+                const { productId, producCategory, productName, productVolume, productMaterial, productPrice, oldCloudinaryPublicId, oldImagePath } = fields;
                 const { productImage: [{ filepath }] } = files;
                 const { productImage: [{ originalFilename }] } = files;
                 
                 // Починаємо формувати об'єкт для запису в БД
                 const productData = {
+                    producCategory,
                     productName,        // Аналогічно до синтаксису productName: productName,
                     productVolume,
                     productMaterial,
