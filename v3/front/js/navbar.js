@@ -67,8 +67,8 @@ function navbarRender(user) {
                                         </button>
                                         <div class="collapse navbar-collapse" id="n_bar">
                                             <ul class="navbar-nav">
+                                                <li class="nav-item"><a class="nav-link" href="#" onclick="categoryRender()">CATEGORIES</a></li>     
                                                 <li class="nav-item"><a class="nav-link" href="#" onclick="getAndShowAllProducts()">PRODUCTS</a></li>
-                                                <li class="nav-item"><a class="nav-link" href="#" onclick="categoryRender()">CATEGORIES</a></li> 
                                                 <li class="nav-item"><a class="nav-link" href="#" onclick="manageOrders()">ORDERS</a></li>
                                                 <li class="nav-item dropdown">
                                                     <div class="nav-link dropdown-toggle fa-solid fa-user" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">

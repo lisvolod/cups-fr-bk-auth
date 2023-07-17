@@ -31,14 +31,13 @@ const categoryRender = async () => {
         });
     }
     else {
-        const dataContainer = document.querySelector(".data-container");
+        const categoryContainer = document.querySelector(".category-container");
         const categoryCard = document.createElement("div");
-        categoryCard.classList.add("category-card");
-        categoryCard.innerHTML = `<div style='color:red'>
-                                        <h1 style='color:red'>No categories found yet. </h1>
-                                        <h1>Create some products category...</h1>
-                                    </div>`;
-        dataContainer.appendChild(categoryCard); 
+        categoryCard.classList.add("empy-errors");
+        categoryCard.innerHTML = `<div class="empy-errors-item">No categories found yet. </div>
+                                  <div class="empy-errors-item">Create some category,</div>
+                                  <div class="empy-errors-item">then create products.</div>`;
+        categoryContainer.appendChild(categoryCard); 
     }
 }
 

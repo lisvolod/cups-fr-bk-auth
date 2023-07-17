@@ -20,3 +20,16 @@ body {
     justify-content: space-evenly; 
 }
 
+.empy-errors{
+    margin-top: 20px;
+    color: red;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.empy-errors-item{
+    font-size: 1.3rem;
+    text-align: center;
+}
+

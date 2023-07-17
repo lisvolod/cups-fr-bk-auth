@@ -81,10 +81,11 @@ async function getAndShowAllProducts() {
                 });
             }
             else {
-                dataContainer.innerHTML = `<div style='color:red'>
-                                                <h1 style='color:red'>No products found yet. </h1>
-                                                <h1>Create some product...</h1>
-                                            </div>`
+                dataContainer.innerHTML = `<div class="empy-errors">
+                    <div class="empy-errors-item">No products found yet. </div>
+                    <div class="empy-errors-item">First - create some category,</div>
+                    <div class="empy-errors-item">then you'll be able to create products.</div>
+                </div>`
             }
            
     })

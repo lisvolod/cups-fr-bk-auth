@@ -65,6 +65,13 @@ const createAndEditProductModalContent = () => {
                 <input type="hidden" name="oldImagePath" id="oldImagePath">
                 <table class="form-table">
                     <tr>
+                        <td class="form-label"><label for="producCategory">Category:</label> </td>
+                        <td class="form-input">
+                            <select name="producCategory" id="producCategory" class="form-select" required>
+                            </select>
+                        </td>
+                    </tr>
+                    <tr>
                         <td class="form-label"><label for="productName">Name:</label> </td>
                         <td class="form-input"><input type="text" name="productName" id="productName" class="form-control" required></td>
                     </tr>
@@ -112,9 +119,8 @@ const productModalFooter =``;
 const productModal = new CustomModal(productModalTitle, productModalContent, productModalFooter);
 productModal.create('prd');
 
+
 //Функції для зміни режиму вікна Створення/Редагування
-
-
 
 function convertModalToEdit() {
     

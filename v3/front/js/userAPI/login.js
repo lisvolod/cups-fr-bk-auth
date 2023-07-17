@@ -22,10 +22,10 @@ async function userLogin() {
       
       fetch(`${backURL}/user/login`, requestOptions)
         .then(response => response.json())
-        .then(data => {
+        .then(async data => {
             // Обробка відповіді від сервера
             // Обробка повідомлення про наявну email
-            console.log(data);
+            
             if (data.emailMsg) {
                 document.getElementById('loginEmailError').innerText =`${data.emailMsg}`;
                 
@@ -45,9 +45,11 @@ async function userLogin() {
                 // Рендеримо меню авторизованого користувача
                 navbarRender(getUser());
                 // Рендеримо карточки продуктів
-                getAndShowAllProducts();
+                await getAndShowAllProducts();
                 // Забираємо категорії товарів з сервера
-                if (data.isAdmin) { getAllCategoriesFromDB() };
+                if (data.isAdmin) { 
+                    await getAllCategoriesFromDB();                    
+                 };
             }
         })
         .catch(err => {

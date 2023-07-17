@@ -7,6 +7,7 @@ function productCardRender(product) {
     // Верхня частина буде однаковою, футер - буде відрізнятися
     const commonProductCardPart = `<div class="product-data">
                                         <img src="${product.productImage}" class="product-img">
+                                        <div class="product-category">${product.producCategory}</div>
                                         <div class="product-name">${product.productName}</div>
                                         <div class="product-text">Volume: <span class="product-volume">${product.productVolume}</span> ml</div> 
                                         <div class="product-text">Material: <span class="product-material">${product.productMaterial}</span></div>
