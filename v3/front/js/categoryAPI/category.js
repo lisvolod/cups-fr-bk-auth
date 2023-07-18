@@ -57,7 +57,7 @@ async function validateCategoryName(valuePath, errMsgPath) {
 
 async function sendCategorytData(route, form, valuePath, errMsgPath, id) {
     return new Promise ((resolve, reject) => {
-        const categoryName = document.getElementById(valuePath).value.trim();
+        const categoryName = document.getElementById(valuePath).value.trim().toUpperCase();
         const reqBody = {
             categoryName: categoryName,
             categoryId: id

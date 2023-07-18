@@ -136,6 +136,7 @@ function convertModalToCreate() {
 
 function openProductModalWithCreate() {
     convertModalToCreate();
+    renderProductCategegoriesOptions();
     productModal.open();
 }
 
@@ -246,7 +247,7 @@ const createCatgoryModalContent = () => {
                 <table class="form-table">
                     <tr>
                         <td class="form-label"><label for="createCategoryName">Category name:</label> </td>
-                        <td class="form-input"><input type="text" name="createCategoryName" id="createCategoryName" class="form-control" required></td>
+                        <td class="form-input"><input type="text" name="createCategoryName" id="createCategoryName" class="form-control touppercase" required></td>
                     </tr>
                     <tr>
                         <td></td>
@@ -273,7 +274,7 @@ const editCatgoryModalContent = () => {
                 <table class="form-table">
                     <tr>
                         <td class="form-label"><label for="editCategoryName">Category name:</label> </td>
-                        <td class="form-input"><input type="text" name="editCategoryName" id="editCategoryName" class="form-control" required></td>
+                        <td class="form-input"><input type="text" name="editCategoryName" id="editCategoryName" class="form-control touppercase" required></td>
                     </tr>
                     <tr>
                         <td></td>

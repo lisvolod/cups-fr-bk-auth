@@ -13,10 +13,34 @@
     width: 240px;
     height: 240px;
     margin: 10px auto;
+    caret-color: transparent;
 }
 
 .product-data {
-    text-align: center;
+    /* text-align: center; */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    overflow: hidden;
+    z-index: 1;
+}
+
+.product-category{
+    background-color: rgb(108, 117, 125, 0.75);
+    font-size: 1.2rem;
+    color: white;
+    width: 50%;
+    position: absolute;
+    top: 45px;
+    left: -10px;
+    transform: skewX(-20deg);
+    
+}
+.product-category-text{
+
+    transform: skewX(20deg);
 }
 
 .product-name {

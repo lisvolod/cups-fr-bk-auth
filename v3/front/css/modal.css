@@ -7,6 +7,7 @@
     height: 100%;
     width: 100%;
     background: rgba(0, 0, 0, 0.5);
+    z-index: 100;
 }
 
 .modal-window {
@@ -99,4 +100,8 @@
 .switch-link{
     cursor: pointer;
     color: #2196F3;
+}
+
+.touppercase{
+    text-transform: uppercase;
 }

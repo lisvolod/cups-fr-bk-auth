@@ -54,9 +54,6 @@ function btnRender() {
 }
 
 
-
-
-
 async function getAndShowAllProducts() {
     await fetch(`${backURL}/product`, {
         method: 'GET',
@@ -95,8 +92,15 @@ async function getAndShowAllProducts() {
 // ***** Редагування продукту (заповнення полів модалки)
 //
 
-function editProduct(id, name, volume, mat, price, img, cloud) {
+function editProduct(id, cat, name, volume, mat, price, img, cloud) {
     convertModalToEdit();
+    renderProductCategegoriesOptions();
+    // Шукаємо, яка прийшла категорія, і вибираємо її
+    const categoryListBox = document.querySelector('#producCategory');
+    const options = Array.from(categoryListBox.options);
+    const optionToSelect = options.find(item => item.text === cat);
+    optionToSelect.selected = true;
+
     document.getElementById('productId').value = id;
     document.getElementById('productName').value = name;
     document.getElementById('productVolume').value = volume;
