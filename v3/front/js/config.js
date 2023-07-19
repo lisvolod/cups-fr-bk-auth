@@ -65,9 +65,10 @@ function renderProductCategegoriesOptions() {
     
     // Вибираємо категорії товарів з LS
     const categoryArr = getCategories();
+    
     categoryArr.forEach(category => {
         const categoryOption = document.createElement('option');
-        categoryOption.value = category.name;
+        categoryOption.value = category._id;
         categoryOption.innerText = `${category.name}`;
         producCategory.appendChild(categoryOption);
     });

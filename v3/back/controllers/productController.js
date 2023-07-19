@@ -106,6 +106,8 @@ export const getAllProducts = async (req, res) => {
     Product
     .find()
     .sort({ _id: -1 })
+    .populate('category')
+    .exec()
     .then(result =>  res.send(result))
     .catch(err =>  console.warn('Error in retrieving product list: ', err))
 }

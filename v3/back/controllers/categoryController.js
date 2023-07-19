@@ -1,4 +1,5 @@
 import Category from "../models/categoryModel.js"
+import Product from "../models/productModel.js";
 import slugify from "slugify";
 
 export const createCategory = async (req, res) => {
@@ -45,10 +46,11 @@ export const getCategories = async (req, res) => {
 }
 
 export const removeCategory = async (req, res) => {
-    const category = req.params.id;
+    const category_id = req.params.id;
     try {
-        await Category.findByIdAndDelete(category);
-        res.status(200).json({msg: "Category successfully deleted"});
+        await Product.deleteMany({category: category_id });
+        await Category.findByIdAndDelete(category_id);
+        res.status(200).json({msg: "Category and of its products successfully deleted"});
     } catch (error) {
         return res.status(500).json({msg: error.message})
     }

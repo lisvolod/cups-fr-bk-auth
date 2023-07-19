@@ -144,7 +144,7 @@ function openProductModalWithCreate() {
 // ********* Модальне вікно для підтвердження видалення продукту ************
 //
 const confirmModalTitle = `Removal confirmation`;
-const confirmModalContent = `Are you sure you want to remove?`;
+const confirmModalContent = `<div class="confirmation-message"></div> `;
 const confirmModalFooter =`<div class="confirmation-footer">
                                 <input type="submit" class="btn btn-danger" id="removeProductBtn" value="Remove">
                                 <input type="reset" class="btn btn-success" id="cancelProductBtn" data-close="true" value="Cancel">

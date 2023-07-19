@@ -15,10 +15,12 @@ function waitForRemoveButtonPress() {
     });
 }
 
-async function removeProduct(a, b) {
+async function removeProduct(product) {
+    const msg = document.getElementsByClassName('confirmation-message')[0];
+    msg.innerHTML = `Are you sure you want to remove <b>${product.name}</b>`
     confirmModal.open();
     await waitForRemoveButtonPress();    // Зупинити виконання до натискання кнопки
-        let deleteParams = JSON.stringify({_id:a, cloudinaryPublicId:b})
+        let deleteParams = JSON.stringify({_id:product._id, cloudinaryPublicId: product.cloudinaryPublicId})
         await fetch(`${backURL}/product/`, {
             method: "DELETE",
             mode: 'cors',
@@ -72,6 +74,7 @@ async function getAndShowAllProducts() {
             // Перевіряємо, чи є продукти
             if (data.length) {
                 data.forEach(product => {
+                    // console.log(product);
                     dropDownClose();
                     // Якщо є - рендиримо карточки продуктів
                     productCardRender(product);
@@ -92,23 +95,23 @@ async function getAndShowAllProducts() {
 // ***** Редагування продукту (заповнення полів модалки)
 //
 
-function editProduct(id, cat, name, volume, mat, price, img, cloud) {
+function editProduct(product) {
     convertModalToEdit();
     renderProductCategegoriesOptions();
     // Шукаємо, яка прийшла категорія, і вибираємо її
     const categoryListBox = document.querySelector('#producCategory');
     const options = Array.from(categoryListBox.options);
-    const optionToSelect = options.find(item => item.text === cat);
+    const optionToSelect = options.find(item => item.text === product.category.name);
     optionToSelect.selected = true;
 
-    document.getElementById('productId').value = id;
-    document.getElementById('productName').value = name;
-    document.getElementById('productVolume').value = volume;
-    document.getElementById('productMaterial').value = mat;
-    document.getElementById('productPrice').value = price;
-    document.getElementById('formImage').setAttribute("src", img) ;
-    document.getElementById('oldCloudinaryPublicId').value = cloud;
-    document.getElementById('oldImagePath').value = img;
+    document.getElementById('productId').value = product._id;
+    document.getElementById('productName').value = product.name;
+    document.getElementById('productVolume').value = product.volume;
+    document.getElementById('productMaterial').value = product.material;
+    document.getElementById('productPrice').value = product.price;
+    document.getElementById('formImage').setAttribute("src", product.image) ;
+    document.getElementById('oldCloudinaryPublicId').value = product.cloud;
+    document.getElementById('oldImagePath').value = product.image;
     productModal.open();
 }
 

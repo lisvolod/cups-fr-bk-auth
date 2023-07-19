@@ -1,5 +1,9 @@
 function productCardRender(product) {
+    // Виймаємо з product об'єкт category
+    const { category } = product;
+    
     const prdStr = JSON.stringify(product);
+    // console.log(prdStr);
     // Функціонал для формування карточки продукту
     const productCard = document.createElement("div");
     productCard.classList.add("product");
@@ -7,7 +11,7 @@ function productCardRender(product) {
     // Верхня частина буде однаковою, футер - буде відрізнятися
     const commonProductCardPart = `<div class="product-data">
                                         <div><img src="${product.image}" class="product-img"></div>
-                                        <div class="product-category"><div class="product-category-text">${product.category}</div></div>
+                                        <div class="product-category"><div class="product-category-text">${category.name}</div></div>
                                         <div class="product-name">${product.name}</div>
                                         <div class="product-text">Volume: <span class="product-volume">${product.volume}</span> ml</div> 
                                         <div class="product-text">Material: <span class="product-material">${product.material}</span></div>
@@ -16,8 +20,8 @@ function productCardRender(product) {
     const adminProductCardFooter = `  <div class="product-footer">
                                         <div> <span class="product-price">${product.price} &#x20b4 </span> </div>                                    
                                         <div class="product-manage-btns">
-                                            <div class="fas fa-edit product-btn" onclick="editProduct('${product._id}', '${product.category}', '${product.name}', '${product.volume}', '${product.material}', '${product.price}','${product.image}', '${product.cloudinaryPublicId}')"> </div>
-                                            <div class="fa-solid fa-trash-can product-btn" onclick="removeProduct('${product._id}', '${product.cloudinaryPublicId}')"></div>
+                                            <div class="fas fa-edit product-btn" onclick='editProduct(${prdStr})'> </div>
+                                            <div class="fa-solid fa-trash-can product-btn" onclick='removeProduct(${prdStr})'></div>
                                         </div> 
                                     </div>`;
     const userProductCardFooter = `

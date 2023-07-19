@@ -124,13 +124,18 @@ async function getAllCategoriesFromDB() {
     
 }
 
-const removeCategory = async (id) => {
+const removeCategory = async (category) => {
+    const msg = document.getElementsByClassName('confirmation-message')[0];
+    msg.innerHTML = `Are you sure you want to remove category <b>${category.name}</b>? </br>
+    <b>ALL PRODUCTS</b> of this category will also be <b>REMOVED</b>.</br>
+    You can change the category in the products before removing the category..`
+    
     return new Promise ( async (resolve, reject) => {
         try {
             confirmModal.open();
             await waitForRemoveButtonPress();    // Зупинити виконання до натискання кнопки
             // let deleteParams = JSON.stringify({_id:a, cloudinaryPublicId:b})
-            await fetch(`${backURL}/category/${id}`, {
+            await fetch(`${backURL}/category/${category._id}`, {
                 method: "DELETE",
                 mode: 'cors',
                 credentials: 'include',                 // Don't forget to specify this if you need cookies
@@ -149,9 +154,9 @@ const removeCategory = async (id) => {
 }
 
 
-const editCategory = async (id, name) => {
-    document.getElementById('editCategoryId').setAttribute("value", id);
-    document.getElementById('editCategoryName').value = name;
+const editCategory = async (category) => {
+    document.getElementById('editCategoryId').setAttribute("value", category._id);
+    document.getElementById('editCategoryName').value = category.name;
     editCatgoryModal.open();
 }
 
