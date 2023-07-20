@@ -13,7 +13,7 @@ const app = express();
 const allowedOrigins = process.env.ALLOWED_ORIGINS.split(',');
 app.use(cors({
     origin: allowedOrigins,
-    methods: ['GET', 'POST', 'PUT', 'DELETE'],
+    methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE'],
     allowedHeaders: ['Content-Type', 'Authorization'],
     credentials: true
   }));

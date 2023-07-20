@@ -10,9 +10,17 @@ const clearStorage = async () => {
     localStorage.clear();
 };
 
-const setUser = (user) => {
-    localStorage.setItem('user', JSON.stringify(user));
-}; 
+const setUser = async (user) => {
+    return new Promise((resolve, reject) => {
+        try {
+            localStorage.setItem('user', JSON.stringify(user));
+            resolve();
+        } catch (error) {
+            console.error(error);
+            reject();
+        }
+    })
+}
 
 async function refreshToken() {
         return new Promise( (res, rej) => {
@@ -41,15 +49,15 @@ async function refreshToken() {
 
 const setCategories = (categories) => {
     localStorage.setItem('categories', JSON.stringify(categories));
-    renderProductCategegoriesOptions();
+    renderProductCategoriesOptions();
 }
 
 const getCategories = () => {
     return JSON.parse(localStorage.getItem('categories'));
 };
 
-function renderProductCategegoriesOptions() {
-    // Випадаючий список для категорій товарівпри створенні продуктів 
+function renderProductCategoriesOptions() {
+    // Випадаючий список для категорій товарів при створенні продуктів 
     // (модалка перемальовується) при створенні нової категорії
     // Вибираємо select i очищуємо його
     const producCategory = document.getElementById('producCategory');

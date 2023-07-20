@@ -34,8 +34,8 @@ async function navbarRender(user) {
                 // Меню аторизованого покупця
                 navBar.innerHTML =`<nav class="navbar navbar-light navbar-expand-md navbar-bg-body">
                                         <div class="container">
-                                            <div class="fa fa-shopping-cart navbar-cart-icon" id="cart">
-                                                <div class="navbar-cart-icon-count" id="cartIconCount" onclick='cartRender()'></div>
+                                            <div class="fa fa-shopping-cart navbar-cart-icon" id="cart" onclick='cartRender()'>
+                                                <div class="navbar-cart-icon-count" id="cartIconCount"></div>
                                             </div>
                                             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#n_bar" aria-controls="n_bar" aria-expanded="true" aria-label="Toggle navigation">
                                                 <span class="navbar-toggler-icon"></span>
@@ -87,7 +87,7 @@ async function navbarRender(user) {
         }
         res();
     })
-    .then (calcCount())
+    .then (renderCalcCount())
     
    
 }

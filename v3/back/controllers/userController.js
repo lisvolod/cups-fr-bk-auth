@@ -27,24 +27,24 @@ export const userRegister = async (req, res) => {
         // Отримання збереженого об'єкту користувача після запису в базу даних
         .then(savedUser => {
             // Вибираємо потірбні поля для відправки на клієнт
-            const reqUser = {
-                id: savedUser._id,
+            const resUser = {
+                _id: savedUser._id,
                 name: savedUser.name,
                 // email: savedUser.email,
-                isAdmin: savedUser. isAdmin,
+                isAdmin: savedUser.isAdmin,
                 cart: savedUser.cart
             }
             // Створюємо два JWT-токени 
             // accesstoken  - з коротким терміном дії для авторизації 
             // refreshtoken - з довгим терміном дії для можливості оновлення accesstoken
-            const accesstoken = createAccessToken({id: newUser._id});
-            const refreshtoken = createRefreshToken({id: newUser._id});
+            const accesstoken = createAccessToken({_id: newUser._id});
+            const refreshtoken = createRefreshToken({_id: newUser._id});
             // Відправляємо токени в куки
             res.cookie('accessToken', accesstoken, { httpOnly: true, secure: true, sameSite: 'none' });
             res.cookie('refreshToken', refreshtoken, { httpOnly: true, secure: true, sameSite: 'none' });
             // Відправляємо в куки об'єкт користувача
             // res.cookie('user', JSON.stringify(reqUser), { maxAge: 3600000, httpOnly: false, sameSite: 'none' }); // 60*60*1000 - година
-            res.status(200).json(reqUser); ;
+            res.status(200).json(resUser); ;
             // res.status(200).json({msg : "Registration successful"});
             
           })
@@ -72,10 +72,10 @@ export const refreshToken = async (req, res) => {
             .then(decoded => {
             // Токен валідний, доступ до decoded даних
             // Отримання ідентифікатора користувача з refreshToken
-            const userId = decoded.id;
+            const userId = decoded._id;
             
             // Оновлення токена доступу
-            const accessToken = jwt.sign({ id: userId }, process.env.ACCESS_TOKEN_SECRET, { expiresIn: '15m' });
+            const accessToken = jwt.sign({ _id: userId }, process.env.ACCESS_TOKEN_SECRET, { expiresIn: '15m' });
     
             // Відправка нового токена в HTTP-Only куку на клієнт
             res.cookie('accessToken', accessToken, { httpOnly: true, secure: true, sameSite: 'none' });
@@ -124,7 +124,7 @@ export const userLogin = async (req, res) => {
                         // Якщо авторизація успішна
                         // Вибираємо окремі поля користувача для відправки на клієнт
                         const logedUser = {
-                            id: user._id,
+                            _id: user._id,
                             name: user.name,
                             // email: user.email,
                             isAdmin: user. isAdmin,
@@ -134,8 +134,8 @@ export const userLogin = async (req, res) => {
                         // res.cookie('user', JSON.stringify(logedUser), { maxAge: 3600000, httpOnly: false, secure: true, sameSite: 'none' }); // 60*60*1000
                         
                         // ствропення та відправка в куки токенів
-                        const accesstoken = createAccessToken({id: user._id});
-                        const refreshtoken = createRefreshToken({id: user._id});
+                        const accesstoken = createAccessToken({_id: user._id});
+                        const refreshtoken = createRefreshToken({_id: user._id});
                         // Відправляємо токени в куки
                         res.cookie('accessToken', accesstoken, { httpOnly: true, secure: true, sameSite: 'none' });
                         res.cookie('refreshToken', refreshtoken, { httpOnly: true, secure: true, sameSite: 'none' });
@@ -156,6 +156,17 @@ export const userLogin = async (req, res) => {
     }
 }
 
+export const cartUpdate = async (req, res) => {
+    try {
+        await User.findByIdAndUpdate (req.body._id, {cart: req.body.cart}, { new: true })
+        .then (updatedUser => {
+            res.status(200).json({user: updatedUser});
+        });
+    } catch (error) {
+        console.log(error);
+        return res.status(500).json({error})
+    }
+}
 
 const createAccessToken = (user) => {
     return jwt.sign(user, process.env.ACCESS_TOKEN_SECRET, {expiresIn: '15m'})

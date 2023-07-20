@@ -130,9 +130,14 @@
     font-weight: 600;
 }
 
-.order-button-container{
+.cart-order-button-container{
     margin-top: 20px;
     display: flex;
     justify-content: end;
 }
 
+.cart-empty-message{
+    margin-top: 50px;
+    display: flex;
+    justify-content: center;
+}
