@@ -29,11 +29,12 @@
 
 .product-category{
     background-color: rgb(108, 117, 125, 0.75);
+    border-radius: 3px;
     font-size: 1.2rem;
     color: white;
-    width: 70%;
+    width: 60%;
     position: absolute;
-    top: 55px;
+    top: 45px;
     left: -10px;
     transform: skewX(-20deg);
     

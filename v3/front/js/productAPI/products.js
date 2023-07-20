@@ -64,7 +64,6 @@ async function getAndShowAllProducts() {
     })
     .then(response => response.json())                      // Парсимо [object Response] 
     .then(data => {                                         // Парсимо [object Promise]
-            
             // Закриваємо випадаюче меню в адаптиві 
             dropDownClose();
             btnRender();            
