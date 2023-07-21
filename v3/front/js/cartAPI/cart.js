@@ -66,7 +66,7 @@ function cartRender() {
                 // Кнопка оформлення замовлення
                 const orderButton = document.createElement('div');
                 orderButton.classList.add('cart-order-button-container');
-                orderButton.innerHTML = `<button class="btn btn-secondary">Complete the order</button>`;
+                orderButton.innerHTML = `<button class="btn btn-secondary" onclick='orderModal.open()'>Complete the order</button>`;
                 cartContainer.appendChild(orderButton);
             } else {
                 const emptyCartMsg = document.createElement('div');

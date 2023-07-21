@@ -50,7 +50,7 @@ export const userRegister = async (req, res) => {
           })
           .catch(error => {
             console.log(error);
-            // Обробка помилки
+            res.status(401).json({ message: 'Помилка реєстрації' });
           });
 
     } catch (error) {
