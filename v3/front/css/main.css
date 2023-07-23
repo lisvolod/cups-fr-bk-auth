@@ -8,13 +8,23 @@ body {
 }
 
 .content-container{
+    position: relative;
+    
     display: flex;
     justify-content: center;
     align-items: center;
     flex-direction: column;
 }
 
+.btn-container{
+    position: relative;
+    /* top: 60px */
+}
+
 .data-container {
+    position: relative;
+    /* top: 58px; */
+    z-index: 1;
     display: flex;
     flex-wrap: wrap;
     justify-content: space-evenly; 

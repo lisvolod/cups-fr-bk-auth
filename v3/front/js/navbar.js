@@ -43,12 +43,13 @@ async function navbarRender(user) {
                                             <div class="collapse navbar-collapse" id="n_bar">
                                                 <ul class="navbar-nav">
                                                     <li class="nav-item"><a class="nav-link" href="#" onclick="getAndShowAllProducts()">PRODUCTS</a></li>
+                                                    <li class="nav-item"><a class="nav-link" href="#" onclick="renderOrders()">ORDERS</a></li>
                                                     <li class="nav-item dropdown">
                                                         <div class="nav-link dropdown-toggle fa-solid fa-user" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                                                             <span class="user-name">${user.name}</span>
                                                         </div>
                                                         <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                                            <li><a class="dropdown-item" href="#">Orders info</a></li>
+                                                            <li><a class="dropdown-item" href="#">User info</a></li>
                                                             <li><hr class="dropdown-divider"></li>
                                                             <li><a class="dropdown-item" href="#" onclick="userLogout()">LogOut</a></li>
                                                         </ul>
@@ -70,7 +71,7 @@ async function navbarRender(user) {
                                                 <ul class="navbar-nav">
                                                     <li class="nav-item"><a class="nav-link" href="#" onclick="categoryRender()">CATEGORIES</a></li>     
                                                     <li class="nav-item"><a class="nav-link" href="#" onclick="getAndShowAllProducts()">PRODUCTS</a></li>
-                                                    <li class="nav-item"><a class="nav-link" href="#" onclick="manageOrders()">ORDERS</a></li>
+                                                    <li class="nav-item"><a class="nav-link" href="#" onclick="renderOrders()">ORDERS</a></li>
                                                     <li class="nav-item dropdown">
                                                         <div class="nav-link dropdown-toggle fa-solid fa-user" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                                                             <span class="user-name">${user.name}</span>
@@ -88,8 +89,6 @@ async function navbarRender(user) {
         res();
     })
     .then (renderCalcCount())
-    
-   
 }
 
 

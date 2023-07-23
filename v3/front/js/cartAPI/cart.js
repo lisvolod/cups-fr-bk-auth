@@ -39,6 +39,7 @@ async function renderCalcCount() {
 }
 
 function cartRender() {
+    dropDownClose();
     return new Promise((resolve, reject) => {
         try {
             // Створення контейнера для рендеру контенту корзини

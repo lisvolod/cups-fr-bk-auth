@@ -2,19 +2,6 @@
 // ***** Видалення продукту
 ///
 
-// Кнопка Remove у модалці Removal confirmation
-const removeButton = document.getElementById('removeProductBtn');
-
-// Функція, яка повертає проміс, який буде вирішений (resolved) 
-// при натисканні кнопки Remove у модалці Removal confirmation
-function waitForRemoveButtonPress() {
-        return new Promise((resolve, reject) => {
-            removeButton.addEventListener('click', () => {
-            resolve();                  // Вирішити проміс, коли кнопка буде натиснута
-        });
-    });
-}
-
 async function removeProduct(product) {
     const msg = document.getElementsByClassName('confirmation-message')[0];
     msg.innerHTML = `Are you sure you want to remove <b>${product.name}</b>`
@@ -42,7 +29,7 @@ async function removeProduct(product) {
 // ***** Показати всі продукти
 ///
 
-// Функція для рендерингу кнопки "Create New Product"
+// Функція рендерингу кнопки "Create New Product" для адміністратора
 function btnRender() {
     const btnContainer = document.querySelector(".btn-container");
     btnContainer.innerHTML = ``;
@@ -96,7 +83,7 @@ async function getAndShowAllProducts() {
 
 function editProduct(product) {
     convertModalToEdit();
-    renderProductCategegoriesOptions();
+    renderProductCategoriesOptions();
     // Шукаємо, яка прийшла категорія, і вибираємо її
     const categoryListBox = document.querySelector('#producCategory');
     const options = Array.from(categoryListBox.options);
@@ -126,6 +113,7 @@ function collectProductFormData(formName) {
     clearHiddenProductFormAttrib();
     return formData;
 }
+
 // Функція для відправки запиту на створення нового продукту
 async function sendProductData() {
     try {
@@ -134,12 +122,22 @@ async function sendProductData() {
             mode: 'cors',
             credentials: 'include',
             body: collectProductFormData('productForm'),
-        }) 
+        })
+        .then(clearHiddenProductFormAttrib()); 
     } catch (error) {
         console.error(error);
     }
    
 }
+
+// Очищення форми productForm після відправки даних
+const clearHiddenProductFormAttrib = () => {
+    document.forms["productForm"].reset()
+    document.getElementById("productId").removeAttribute("value");
+    document.getElementById("oldCloudinaryPublicId").removeAttribute("value");
+}
+
+
 
 // Обробник відправки форми
 document.forms["productForm"].addEventListener ('submit', (e) => {

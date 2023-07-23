@@ -8,19 +8,19 @@ export const auth = async (req, res, next) => {
         if(!accessToken) return res.status(400).json({msg: "Authorization error"})
         
         new Promise((resolve, reject) => {
-                jwt.verify(accessToken, process.env.ACCESS_TOKEN_SECRET, (err, decoded) => {
-                            if (err) { reject(err);} else {resolve(decoded);}
+                jwt.verify(accessToken, process.env.ACCESS_TOKEN_SECRET, (err, decodedUser) => {
+                            if (err) { reject(err);} else {resolve(decodedUser);}
                             });
             })
-            .then(decoded => {
+            .then(decodedUser => {
             // Токен валідний, доступ до decoded даних
             // В decoded прилітає з клієнта id користувача з папаметрами 
             // життя токена { id: '64a8c35b12c38df8f9766862', iat: 1689344685, exp: 1689345585 }
             // Прикручуємо цей об'єкт до запиту (req) і викликаємо наступний middleware ( next() )
             // По суті передаємо цей об'єкт в authAdmin.js, де будемо перевіряти по id,  
             // чи користувач є адміністратором
-            
-            req.user = decoded;
+                        
+            req.user = decodedUser;
                           
             })
             .then (() => {

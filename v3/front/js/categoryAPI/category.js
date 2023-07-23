@@ -1,5 +1,5 @@
+// Рендер меню CATEGORIES для адміністратора
 const categoryRender = async () => {
-    
     //Закриваємо випадаюче меню в адаптиві 
     dropDownClose();
     const btnContainer = document.querySelector(".btn-container");
@@ -108,7 +108,6 @@ async function getAllCategoriesFromDB() {
         .then(response => response.json())
         .then(data => {
             // Обробка відповіді від сервера
-            // Обробка повідомлення про наявну email
             if (data.msg) {
                 console.log(data.msg);
             } else {
@@ -187,3 +186,4 @@ createCategoryName.addEventListener('focus', () => {
 editCategoryName.addEventListener('focus', () => {
     document.getElementById('editCategoryNameError').innerText = '';
 });
+
