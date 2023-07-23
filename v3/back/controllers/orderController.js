@@ -28,7 +28,6 @@ export const getOrders = async (req, res) => {
                         await Order.find()
                             .sort({ _id: -1 })
                             .then( allOrders => {
-                                console.log(allOrders);
                                 res.status(200).json(allOrders);
                             })
                             .catch ( err => {
@@ -55,5 +54,21 @@ export const getOrders = async (req, res) => {
         } catch (error) {
             console.error('Помилка отримання userId:', error);
             res.status(401).json({ message: 'Помилка отримання userId' });
+    }
+}
+
+export const updateOrderStatus = async (req, res) => {
+    try {
+    const orderID = req.params.orderId;
+    const status = req.body;
+        await Order.findByIdAndUpdate(orderID, status)
+        .then( res.status(200).json({msg: "Статус замовлення оновлено"}))
+        .catch( err => {
+            console.error('Помилка новлення статусу замовлення в БД:', err);
+            res.status(401).json({ msg: 'Помилка новлення статусу замовлення в БД' });
+        })
+    } catch (error) {
+        console.log(error);
+        res.status(401).json({ message: 'Помилка оновлення статусу замовлення' });
     }
 }

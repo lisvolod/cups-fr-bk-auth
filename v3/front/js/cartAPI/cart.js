@@ -1,7 +1,5 @@
 async function addToCart(product) {
     const user = getUser();
-    console.log(user);
-    // !!!! Disable here +/- btn
     const existsProductIndex = user.cart.findIndex(item => item.product._id === product._id)
     
     if (existsProductIndex < 0) {
@@ -13,8 +11,6 @@ async function addToCart(product) {
     await navbarRender(user);
     renderCalcCount();
     updateCartInDB(getUser());
-    // !!!! Enable here +/- btn
-    
 }
 
 // Рендер числа товарів на піктограмі корзини в navbar
@@ -98,8 +94,7 @@ const updateCartInDB = async (user) => {
             })
             .then(response => response.json())                      // Парсимо [object Response] 
             .then(user => {                                         // Парсимо [object Promise]
-                console.log(user);
-                resolve();
+                resolve(user);
             })                                         
         } catch (error) {
             console.error(error);

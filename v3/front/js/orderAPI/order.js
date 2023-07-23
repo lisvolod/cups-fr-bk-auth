@@ -55,6 +55,10 @@ document.forms['orderForm'].addEventListener('submit', (event) => {
 async function renderOrders() {
     //Закриваємо випадаюче меню в адаптиві 
     dropDownClose();
+    // Очищуємо контейнер кнопок
+    const btnContainer = document.querySelector(".btn-container");
+    btnContainer.innerHTML = ``;
+    
     try {
     const user = getUser();
     

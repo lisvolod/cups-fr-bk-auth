@@ -7,6 +7,10 @@ body {
     font-family: Verdana, Geneva, Tahoma, sans-serif;
 }
 
+.site-name{
+    cursor: pointer;
+}
+
 .content-container{
     position: relative;
     

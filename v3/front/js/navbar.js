@@ -49,8 +49,6 @@ async function navbarRender(user) {
                                                             <span class="user-name">${user.name}</span>
                                                         </div>
                                                         <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                                            <li><a class="dropdown-item" href="#">User info</a></li>
-                                                            <li><hr class="dropdown-divider"></li>
                                                             <li><a class="dropdown-item" href="#" onclick="userLogout()">LogOut</a></li>
                                                         </ul>
                                                     </li>
@@ -89,6 +87,10 @@ async function navbarRender(user) {
         res();
     })
     .then (renderCalcCount())
+    .catch( err => {
+        console.log(err);
+        rej(err);
+    })
 }
 
 

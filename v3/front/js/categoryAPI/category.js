@@ -25,7 +25,7 @@ const categoryRender = async () => {
         catArr.forEach(category => {
             dropDownClose();
             
-            // Якщо є - рендиримо карточки продуктів
+            // Якщо є - рендиримо карточки категорій
             
             categoryCardRender(category);
         });
