@@ -35,7 +35,7 @@ function productCardRender(product) {
                                     <div class="product-footer">
                                         <div> <span class="product-price">${product.price} &#x20b4 </span> </div>                                    
                                         <div class="product-manage-btns">
-                                            <div class="fa fa-shopping-cart product-cart-btn" onclick="popUp('Please log in')"> </div>
+                                            <div class="fa fa-shopping-cart product-cart-btn" onclick="popUp('Please log in', 'danger')"> </div>
                                         </div> 
                                     </div>`;
     // Перевіряємо стан авторизації

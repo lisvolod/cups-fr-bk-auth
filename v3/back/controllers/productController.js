@@ -12,22 +12,22 @@ cloudinary.config({
     api_secret: process.env.CLOUDINARY_API_SECRET,
   });
 
-function saveDataToDB(productId, data, res){
+const saveDataToDB = async (productId, data, res) => {
     // Перевіряємо чи строрювати новий рекорд в БД, чи оновити наявний
     if (productId == "") {                  //Створюємо новий рекорд БД
-            Product.create(data)
-                .then( () => res.sendStatus(200))
-                .catch(error => {
-                    console.error('Error creating the new product:', error);
-                });
+            await Product.create(data)
+                    .then( () => res.sendStatus(200))
+                    .catch(error => {
+                        console.error('Error creating the new product:', error);
+                    });
     }
     else {                                  //Оновлюємо наявний рекорд БД
-            Product.findByIdAndUpdate(productId, data)
-            .then( () => res.sendStatus(200))
-            .catch(error => {
-                console.error('Error updating product data:', error);
+            await Product.findByIdAndUpdate(productId, data)
+                    .then( () => res.sendStatus(200))
+                    .catch(error => {
+                        console.error('Error updating product data:', error);
 
-            });
+                    });
     }
 }
 
@@ -103,14 +103,14 @@ export const createAndEditProduct = async (req, res) => {
 }
 
 export const getAllProducts = async (req, res) => {
-    Product
-    .find()
-    .sort({ _id: -1 })
-    .populate('category')
-    .exec()
-    .then(result =>  res.send(result))
-    .catch(err =>  console.warn('Error in retrieving product list: ', err))
-}
+    await Product
+            .find()
+            .sort({ _id: -1 })
+            .populate('category')
+            .exec()
+            .then(result =>  res.send(result))
+            .catch(err =>  console.warn('Error in retrieving product list: ', err))
+    }
 
 export const deleteProduct = async (req, res) => {
     try {

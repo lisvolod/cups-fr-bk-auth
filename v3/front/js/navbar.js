@@ -20,8 +20,8 @@ async function navbarRender(user) {
                                                 <li class="nav-item dropdown">
                                                     <div class="nav-link dropdown-toggle fa-solid fa-user" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false"></div>
                                                     <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                                    <li><a class="dropdown-item" href="#" onclick="loginModal.open()">LogIn</a></li>
-                                                    <li><a class="dropdown-item" href="#" onclick="registrationModal.open()">SignUp</a></li>
+                                                        <li><a class="dropdown-item" href="#" onclick="loginModal.open()">LogIn</a></li>
+                                                        <li><a class="dropdown-item" href="#" onclick="registrationModal.open()">SignUp</a></li>
                                                     </ul>
                                                 </li>
                                             </ul>

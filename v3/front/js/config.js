@@ -31,6 +31,7 @@ const setCategories = async (categories) => {
         try {
             localStorage.setItem('categories', JSON.stringify(categories));
             renderProductCategoriesOptions();
+            renderFilterCategoriesOptions();
             resolve();
         } catch (error) {
             console.error(error);

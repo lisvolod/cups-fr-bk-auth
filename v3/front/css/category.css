@@ -3,6 +3,7 @@
     width: 300px;
     display: flex;
     flex-direction: column;
+    caret-color: transparent;
 }
 .category-card{
     display: flex;

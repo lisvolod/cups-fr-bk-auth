@@ -36,7 +36,7 @@ async function createOrder() {
                 updateCartInDB(user);
                 // Повідомлення про успіх
                 console.log(data.msg);
-                popUp(data.msg)})
+                popUp(data.msg, 'success')})
         .then ( renderOrders() )
         .catch( err => {
             console.error('Order createin error: ', err);

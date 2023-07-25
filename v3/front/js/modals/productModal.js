@@ -82,12 +82,14 @@ function openProductModalWithCreate() {
     productModal.open();
 }
 
-// Випадаючий список для категорій товарів в модалці продуктів 
-// (модалка перемальовується) при створенні нової категорії
+// Випадаючий список для категорій товарів в модалці продуктів
+// тобто дані блоки перемальовуються при створенні нової категорії
 
 function renderProductCategoriesOptions() {
-    // Вибираємо select i очищуємо його
+    
+    // Вибираємо select модалкки продуктів i очищуємо його
     const producCategory = document.getElementById('producCategory');
+    // console.log('producCategory', producCategory);
     producCategory.innerHTML = ``;
     // Додаємо в нього опцію по замовчуванню 
     // <option disabled selected value> -- select a category -- </option>

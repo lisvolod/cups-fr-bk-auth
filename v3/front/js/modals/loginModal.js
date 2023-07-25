@@ -36,5 +36,6 @@ loginModal.create('lgn');
 
 const switchToRegistration = () => {
     loginModal.close();
+    document.getElementById('registerEmailError').innerText = '';
     registrationModal.open();
 }

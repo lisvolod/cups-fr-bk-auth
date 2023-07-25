@@ -9,7 +9,7 @@ const jsonParser = express.json();
 
 categoryRouter.post('/create', cookieParser(), auth, authAdmin, jsonParser, createCategory);
 categoryRouter.post('/edit', cookieParser(), auth, authAdmin, jsonParser, editCategory);
-categoryRouter.get('/', cookieParser(), auth, authAdmin, getCategories);
+categoryRouter.get('/', getCategories);
 categoryRouter.delete('/:id', cookieParser(), auth, authAdmin, removeCategory)
 
 export default categoryRouter;

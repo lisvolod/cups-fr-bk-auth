@@ -11,12 +11,19 @@ async function refreshToken() {
                 .then(data => {
                   // Обробка отриманих даних
                   console.log(data);
+                  if (data.message === 'Invalid access token') {
+                    popUp('Please logOut, then logIn again', 'danger');
+                  }
+                  if (data.message === 'Authorization error') {
+                    popUp('Please, logIn', 'danger');
+                  }
                 })
                 .then(res())
                 .catch(error => {
                   console.error('Error:', error);
                 });
         } else {
+            popUp('Please, logIn', 'danger');
             rej('Please, log in');
         }
     })    

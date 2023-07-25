@@ -21,6 +21,7 @@ body {
 }
 
 .btn-container{
+    margin-top: 10px;
     position: relative;
     /* top: 60px */
 }

@@ -27,6 +27,7 @@
     position: relative;
     overflow: hidden;
     z-index: 1;
+    caret-color: transparent;
 }
 
 .product-category{

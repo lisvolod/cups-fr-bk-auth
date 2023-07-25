@@ -29,8 +29,8 @@
     justify-content: space-between;
     flex-direction: row;
     flex-wrap: wrap;
-    
     margin: 30px 20px 10px;
+    caret-color: transparent;
 }
 
 .order-resep-info-item {

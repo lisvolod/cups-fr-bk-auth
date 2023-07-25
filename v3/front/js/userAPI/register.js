@@ -56,7 +56,7 @@ function validateEmail() {
       const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
         
       if (!emailRegex.test(email)) {
-        document.getElementById('registerEmailError').innerText = 'Невірний формат email';
+        document.getElementById('registerEmailError').innerText = 'Wrong email format';
         // reject('Невірний формат email');
       } else {
         // Якщо email валідний, відправляємо успішний результат
@@ -71,7 +71,7 @@ function validatePassword() {
     const confirmPassword = document.getElementById('userRegConfirmPassword').value;
     return new Promise((resolve, reject) => {
       if (password !== confirmPassword) {
-        document.getElementById('registerPasswordError').innerText = 'Паролі не співпадають';
+        document.getElementById('registerPasswordError').innerText = "Passwords don't match";
         // reject('Паролі не співпадають');
       } else {
         // Якщо паролі проходять валідацію, відправляємо успішний результат

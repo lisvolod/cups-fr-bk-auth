@@ -1,6 +1,13 @@
-function popUp(message) {
+function popUp(message, status) {
     var popup = document.getElementById("popup");
-    var popupMessage = document.getElementById("popup-message");
+    if (status === 'danger') {
+        popup.style.backgroundColor = '#fa9a9a';
+    } 
+    if (status === 'success') {
+        popup.style.backgroundColor = '#b5ffcf';
+    }
+    
+    const popupMessage = document.getElementById("popup-message");
     
     popupMessage.textContent = message;
     popup.style.display = "block";

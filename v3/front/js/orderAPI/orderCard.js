@@ -70,13 +70,13 @@ function orderCardRender(order) {
         orderStatusManage.innerHTML = `
             <label class="order-status-select-item-label" for="order-status-select-${order._id}"><b>Change status: </b></label>
             <div class="order-status-options">
-                <select class="form-select order-status-select-item-select" name="status" id="order-status-select-${order._id}">
+                <select class="form-select form-select-sm order-status-select-item-select" name="status" id="order-status-select-${order._id}">
                     <option value="pending">pending</option>
                     <option value="shipped">shipped</option>
                     <option value="completed">completed</option>
                     <option value="canceled">canceled</option>
                 </select>
-                <button class="btn btn-outline-primary order-status-select-item-btm" onclick='orderStatusChange(${JSON.stringify(order._id)})'>Apply</button>
+                <button class="btn btn-outline-primary btn-sm order-status-select-item-btm" onclick='orderStatusChange(${JSON.stringify(order._id)})'>Apply</button>
             </div>
         `;
         document.querySelector(`.order-status-container-${order._id}`).appendChild(orderStatusManage);
