@@ -42,24 +42,41 @@ function btnRender() {
     }
 }
 
-
 async function getAndShowAllProducts() {
-    await fetch(`${backURL}/product`, {
+    const page = getPage();
+    const filterCategory = document.getElementById('filter-category').value;
+    const sort = document.getElementById('filter-sort').value;
+    const search = document.getElementById('filter-search').value.trim();
+    /// Формуємо об'єкт з критеріяи для пошуку та фільтрації
+    const queryParams = new URLSearchParams({
+        page: `${page}`,
+        category: `${filterCategory}`,
+        sort: `${sort}`,
+        search: `${search}`
+      });
+
+    await fetch(`${backURL}/product?${queryParams}`, {
         method: 'GET',
         mode: 'cors',
         credentials: 'include'                 // Don't forget to specify this if you need cookies
     })
     .then(response => response.json())                      // Парсимо [object Response] 
-    .then(data => {                                         // Парсимо [object Promise]
-            // Закриваємо випадаюче меню в адаптиві 
-            dropDownClose();
-            btnRender();            
+    .then( data => {                                         // Парсимо [object Promise]
+            dropDownClose(); // Закриваємо випадаюче меню в адаптиві 
+            btnRender();     // Кнопка Create New Product для адміна        
+             // В об'єкті data приходять продукти та їх кількість { items: items, pageCount: pageCount }
+            
+             // Сетимо кількість сторінок
+            setPageCount(data.pageCount);
+            renderPagination();
+            
+            // Рендеримо карточки продуктів
             const dataContainer = document.querySelector(".data-container");
             dataContainer.innerHTML = "";                   // Очищуємо контейнер продуктів
             
             // Перевіряємо, чи є продукти
-            if (data.length) {
-                data.forEach(product => {
+            if (data.items.length) {
+                data.items.forEach(product => {
                     // console.log(product);
                     dropDownClose();
                     // Якщо є - рендиримо карточки продуктів
@@ -75,6 +92,7 @@ async function getAndShowAllProducts() {
             }
            
     })
+    .catch( err => console.log(err));
 }
 
 //

@@ -13,7 +13,7 @@ body {
 
 .content-container{
     position: relative;
-    
+    min-height: 100vh;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -28,6 +28,7 @@ body {
 
 .data-container {
     position: relative;
+    flex: 1 1 auto;
     /* top: 58px; */
     z-index: 1;
     display: flex;

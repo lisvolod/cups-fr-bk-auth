@@ -2,6 +2,7 @@ import formidable from "formidable";
 import { v2 as cloudinary } from 'cloudinary'
 import Product from "../models/productModel.js";
 import dotenv from 'dotenv';
+import Promise from 'bluebird';
 
 // Завантажуємо змінні середовища з файлу .env
 dotenv.config();
@@ -33,10 +34,11 @@ const saveDataToDB = async (productId, data, res) => {
 
 export const createAndEditProduct = async (req, res) => {
     const productForm = formidable({
-        multiples: true,                    // Вказуємо, що буде прилітати форма з кількома полями
-        keepExtensions: true,               // Вказуємо, що потрібно зберігати розширення файла
-        allowEmptyFiles: true,              // Вказуємо, що можна приймати дані форми без файлів (на випадок editProduct, коли не змінюємо картинку)
-        minFileSize: 0                      // Вказуємо, що мінімальний розмір файла може бути рівний 0 (на випадок editProduct, коли не змінюємо картинку)
+        // Конфігуруємо formidable
+        multiples: true,       // Вказуємо, що буде прилітати форма з кількома полями
+        keepExtensions: true,  // Вказуємо, що потрібно зберігати розширення файла
+        allowEmptyFiles: true, // Вказуємо, що можна приймати дані форми без файлів (на випадок editProduct, коли не змінюємо картинку)
+        minFileSize: 0         // Вказуємо, що мінімальний розмір файла може бути рівний 0 (на випадок editProduct, коли не змінюємо картинку)
     });
     try {
         productForm.parse(req, async (err, fields, files) => {
@@ -84,18 +86,19 @@ export const createAndEditProduct = async (req, res) => {
                             cloudinary.uploader.destroy(oldCloudinaryPublicId);
                         } catch (error) {
                             console.error(error);
+                            res.status(401).json({ msg: 'Помилка видалення зображення з cloudinary' });
                         }
                     }) 
-                    }   catch (error) {
-                            console.error(error);
-                        }
+                    }   
+                    catch (error) {
+                        console.error(error);
+                        res.status(401).json({ msg: 'Помилка збереження зображення в cloudinary' });
+                    }
                 }
             } catch (error) {
-                console.error(error.message);
+                console.error(error);
+                res.status(401).json({ msg: 'Помилка обробки даних форми' });
             }
-            
-            
-            
         })
     } catch (error) {
         console.error("Error parsing formData...", error);
@@ -103,14 +106,77 @@ export const createAndEditProduct = async (req, res) => {
 }
 
 export const getAllProducts = async (req, res) => {
-    await Product
-            .find()
-            .sort({ _id: -1 })
-            .populate('category')
-            .exec()
-            .then(result =>  res.send(result))
-            .catch(err =>  console.warn('Error in retrieving product list: ', err))
+    // *** Пагінація ***
+    const page = req.query.page;  // Номер сторінки 
+    const perPage = process.env.PRODUCTS_PER_PAGE;  // Кількість документів на сторінці
+    const skip = (page - 1) * perPage;              // Кількість записів в БД, які потрібно пропустити
+    
+    // *** Сортування ***
+    // Критерій сортування приходить в req.query.sort
+    // можливі варіанти:
+    // incPr - по зростанню ціни; 
+    // decPr - по спаданню ціни;
+    // incVl - по зростанню об'єму;
+    // decVl - по спаданню об'єму;
+    // nf - (newest first) новіші спочатку
+    // of - (oldest first) старіші спочатку
+    // nosort - не сортувати;
+    const sortObj = {};
+    switch (true) {
+        case req.query.sort === 'incPr' :
+            sortObj.price = 1;
+            break;
+        case req.query.sort === 'decPr' :
+            sortObj.price = -1;
+            break;
+        case req.query.sort === 'incVl' :
+            sortObj.volume = 1;
+            break;
+        case req.query.sort === 'decVl' :
+            sortObj.volume = -1;
+            break;
+        case req.query.sort === 'nf' :
+            sortObj._id = -1;
+            break;
+        case req.query.sort === 'of' :
+            sortObj._id = 1;
+            break;
+        default: sortObj._id = -1;
+            break;
     }
+
+    // ***** Фільтрація і пошук *****
+    const filterObj = {};
+    
+    // *** Фільтрація по категоріях товарів
+    if (req.query.category !== 'all') filterObj.category = req.query.category;
+
+    // *** Пошук товарів за назвою та матеріалом (case-insensitive)
+    // не чутливий до регістру
+    if (req.query.search) {
+        filterObj.$or = [
+            { name:  { $regex: new RegExp(req.query.search, "i") } },
+            { material: { $regex: new RegExp(req.query.search, "i") } }
+          ]
+    };
+    
+    
+    Promise.all([
+        // Визначаємо кількість продуктів, що відповідають критеріям (count)
+        Product.countDocuments(filterObj).exec(),
+        // вибираємо  продукти, що відповідають критеріям (items)
+        Product.find(filterObj).limit(perPage).skip(skip).sort(sortObj).populate('category').exec()
+    ]).spread((count, items ) => { 
+        // метод spread пакету bluebird допомагає зручно працювати з результатами промісів
+        // віддаємо кількість сторінок для перемальовування пагінації
+        const pageCount = Math.ceil(count / perPage);
+        res.status(200).json( { items: items, pageCount: pageCount });
+
+    }, (err) => {
+        console.warn('Error in retrieving product list: ', err);
+        res.status(401).json({ msg: 'Error in retrieving product list:' });
+    });
+}
 
 export const deleteProduct = async (req, res) => {
     try {

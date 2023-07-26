@@ -1,8 +1,10 @@
+
+
 function renderFilterCategoriesOptions() {
     
     // Вибираємо відповідний select з блоку фільтрації i очищуємо його
-   
     const filterCategory = document.getElementById('filter-category');
+    
     filterCategory.innerHTML = ``;
 
     // Додаємо в них опцію по замовчуванню 
@@ -23,3 +25,20 @@ function renderFilterCategoriesOptions() {
         filterCategory.appendChild(categoryOption);
     });
 }
+
+// Фільтрація по категоріях
+const filtration = async () => {
+    await setPage(1);
+    await getAndShowAllProducts();
+}
+
+const filterCategory = document.getElementById('filter-category');
+filterCategory.addEventListener('change', filtration);
+
+// Сортування
+const sort = document.getElementById('filter-sort');
+sort.addEventListener('change', filtration);
+
+// Пошук
+const search = document.getElementById('filter-search');
+search.addEventListener('input', filtration);

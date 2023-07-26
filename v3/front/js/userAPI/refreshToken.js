@@ -12,10 +12,12 @@ async function refreshToken() {
                   // Обробка отриманих даних
                   console.log(data);
                   if (data.message === 'Invalid access token') {
-                    popUp('Please logOut, then logIn again', 'danger');
+                    popUpWithCloseBtn(`<div>Security token ERROR!</div>
+                    <div>Please logOut, then logIn again</div>`, 'danger');
                   }
                   if (data.message === 'Authorization error') {
-                    popUp('Please, logIn', 'danger');
+                    popUpWithCloseBtn(`<div>Authorization ERROR!</div>
+                                        <div>Please, logIn</div>`, 'danger');
                   }
                 })
                 .then(res())
@@ -23,7 +25,8 @@ async function refreshToken() {
                   console.error('Error:', error);
                 });
         } else {
-            popUp('Please, logIn', 'danger');
+            popUpWithCloseBtn(`<div>Authorization ERROR!</div>
+                    <div>Please, logIn</div>`, 'danger');
             rej('Please, log in');
         }
     })    
