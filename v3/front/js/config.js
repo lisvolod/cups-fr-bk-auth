@@ -5,12 +5,6 @@
 // Змінити backURL на `http://localhost:4000` при запуску на локальному сервері;
 const backURL = `http://localhost:4000`;
 
-/// Кількість продуктів на сторінці (для пагінації)
-/// !!! АНАЛОГІЧНЕ значення потрібно встановити 
-/// у файлі .env на стороні сервера
-const PRODUCTS_PER_PAGE = 4;
-
-
 // Робота з localStorage
 
 const getUser = () => {
@@ -38,7 +32,7 @@ const setCategories = async (categories) => {
         try {
             localStorage.setItem('categories', JSON.stringify(categories));
             renderProductCategoriesOptions();
-            renderFilterCategoriesOptions();
+            renderFilterCategoriesOptions(categories);
             resolve();
         } catch (error) {
             console.error(error);

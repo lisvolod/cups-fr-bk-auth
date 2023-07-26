@@ -9,7 +9,8 @@ export const auth = async (req, res, next) => {
         
         new Promise((resolve, reject) => {
                 jwt.verify(accessToken, process.env.ACCESS_TOKEN_SECRET, (err, decodedUser) => {
-                            if (err) { reject(err);} else {resolve(decodedUser);}
+                            if (err) { reject(err);} else {
+                                        resolve(decodedUser);}
                             });
             })
             .then(decodedUser => {

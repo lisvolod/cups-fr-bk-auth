@@ -37,7 +37,8 @@ const createAndEditProductModalContent = () => {
                         </td>
                     </tr>
                     <tr>
-                        <td colspan="2" class="form-image-container">
+                        <td></td>
+                        <td class="form-image-container">
                             <img class="form-image" id="formImage" >
                         </td>
                     </tr>

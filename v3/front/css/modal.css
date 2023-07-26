@@ -11,8 +11,11 @@
 }
 
 .modal-window {
-    min-width: 300px;
-    max-width: 350px;
+    width: 90%;
+    min-width: 350px;
+    max-width: 600px;
+    display: flex;
+    flex-direction: column;
     /* width: 700px; */
     margin: 0 auto;
     position: relative;
@@ -111,4 +114,8 @@
 
 .touppercase{
     text-transform: uppercase;
+}
+
+.form-image {
+    padding-right: 30px;
 }

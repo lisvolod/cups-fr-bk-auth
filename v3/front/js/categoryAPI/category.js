@@ -112,8 +112,9 @@ async function getAllCategoriesFromDB() {
                 console.log(data.msg);
             } else {
                 setCategories(data);
+                resolve(data);
             }
-            resolve();
+            
         })
         .catch(err => {
             console.error(err);

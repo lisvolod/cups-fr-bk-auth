@@ -79,7 +79,7 @@ export const refreshToken = async (req, res) => {
     
             // Відправка нового токена в HTTP-Only куку на клієнт
             res.cookie('accessToken', accessToken, { httpOnly: true, secure: true, sameSite: 'none' });
-            res.status(200).json({ msg: 'Оновлення токена успішне' });
+            res.status(200).json({ msg: 'Token updated successful' });
             
             })
             .catch(err => {

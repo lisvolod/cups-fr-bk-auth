@@ -25,6 +25,10 @@ const registrationModalContent = `<form name="registerForm" method="post">
                                         <td class="form-input"><input type="password" name="userRegPassword" id="userRegPassword" class="form-control" minlength="6" required></td>
                                     </tr>
                                     <tr>
+                                        <td></td>
+                                        <td class="form-email-eror" id="registerEmailError"></td>
+                                    </tr>
+                                    <tr>
                                         <td class="form-label"><label for="userRegConfirmPassword">Password confirm:</label> </td>
                                         <td class="form-input"><input type="password" name="userRegConfirmPassword" id="userRegConfirmPassword" class="form-control" minlength="6" required></td>
                                     </tr>

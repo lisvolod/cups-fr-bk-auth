@@ -10,23 +10,32 @@ async function refreshToken() {
                 .then(response => response.json())
                 .then(data => {
                   // Обробка отриманих даних
-                  console.log(data);
-                  if (data.message === 'Invalid access token') {
-                    popUpWithCloseBtn(`<div>Security token ERROR!</div>
-                    <div>Please logOut, then logIn again</div>`, 'danger');
-                  }
-                  if (data.message === 'Authorization error') {
-                    popUpWithCloseBtn(`<div>Authorization ERROR!</div>
-                                        <div>Please, logIn</div>`, 'danger');
-                  }
+                    if (data.msg === 'Token updated successful') {
+                            console.log(data);
+                            res();
+                    }
+                    if (data.message === 'Invalid access token') {
+                        localStorage.clear();
+                        location.reload();
+                    //     popUpWithCloseBtn(`<div>Security token ERROR!</div>
+                    //     <div>Please logOut, then logIn again</div>`, 'danger');
+                    }
+                    if (data.message === 'Authorization error') {
+                        localStorage.clear();
+                        location.reload();
+                        // popUpWithCloseBtn(`<div>Authorization ERROR!</div>
+                        //                     <div>Please, logIn</div>`, 'danger');
+                    }
                 })
                 .then(res())
                 .catch(error => {
                   console.error('Error:', error);
                 });
         } else {
-            popUpWithCloseBtn(`<div>Authorization ERROR!</div>
-                    <div>Please, logIn</div>`, 'danger');
+            localStorage.clear();
+            location.reload();
+            // popUpWithCloseBtn(`<div>Authorization ERROR!</div>
+            //         <div>Please, logIn</div>`, 'danger');
             rej('Please, log in');
         }
     })    
@@ -34,3 +43,6 @@ async function refreshToken() {
 
 // Оновлювати токен кожні 3 хвилин
 setInterval(refreshToken, 3 * 60 * 1000);
+// setInterval(refreshToken, 20 * 1000);
+
+// document.addEventListener("DOMContentLoaded", refreshToken);

@@ -43,6 +43,7 @@ function btnRender() {
 }
 
 async function getAndShowAllProducts() {
+    // Вибираємо значення для фільтрації і пошуку
     const page = getPage();
     const filterCategory = document.getElementById('filter-category').value;
     const sort = document.getElementById('filter-sort').value;
@@ -54,7 +55,7 @@ async function getAndShowAllProducts() {
         sort: `${sort}`,
         search: `${search}`
       });
-
+    // Передаємо сформований об'єкт у query-параметри GET-запиту  
     await fetch(`${backURL}/product?${queryParams}`, {
         method: 'GET',
         mode: 'cors',

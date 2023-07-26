@@ -13,6 +13,7 @@
     z-index: 9999;
     opacity: 0;
     animation: fade-in 0.3s ease-in-out forwards;
+    caret-color: transparent;
   }
   
   @keyframes fade-in {
