@@ -1,8 +1,14 @@
-function productCardRender(product) {
+import { addToCart } from "../cartAPI/cart.js";
+import { attachEventHandler, getUser } from "../config.js";
+import { popUp } from "../popup.js";
+import { editProduct, removeProduct } from "./products.js";
+
+export const productCardRender = (product) => {
     // Виймаємо з product об'єкт category
     const { category } = product;
-    
+    // console.log(product);
     const prdStr = JSON.stringify(product);
+    const prdId = JSON.stringify(product._id).trim();
     // console.log(prdStr);
     // Функціонал для формування карточки продукту
     const productCard = document.createElement("div");
@@ -20,22 +26,22 @@ function productCardRender(product) {
     const adminProductCardFooter = `  <div class="product-footer">
                                         <div> <span class="product-price">${product.price} &#x20b4 </span> </div>                                    
                                         <div class="product-manage-btns">
-                                            <div class="fas fa-edit product-btn" onclick='editProduct(${prdStr})'> </div>
-                                            <div class="fa-solid fa-trash-can product-btn" onclick='removeProduct(${prdStr})'></div>
+                                            <div class="fas fa-edit product-btn" id='editProduct${product._id}'> </div>
+                                            <div class="fa-solid fa-trash-can product-btn" id="removeProduct${product._id}"></div>
                                         </div> 
                                     </div>`;
     const userProductCardFooter = `
                                     <div class="product-footer">
                                         <div> <span class="product-price">${product.price} &#x20b4 </span> </div>                                    
                                         <div class="product-manage-btns">
-                                            <div class="fa fa-shopping-cart product-cart-btn" onclick='addToCart(${prdStr})'> </div>
+                                            <div class="fa fa-shopping-cart product-cart-btn" id="addToCart${product._id}"> </div>
                                         </div> 
                                     </div>`;
     const unAuthProductCardFooter = `
                                     <div class="product-footer">
                                         <div> <span class="product-price">${product.price} &#x20b4 </span> </div>                                    
                                         <div class="product-manage-btns">
-                                            <div class="fa fa-shopping-cart product-cart-btn" onclick="popUp('Please log in', 'danger')"> </div>
+                                            <div class="fa fa-shopping-cart product-cart-btn" id='popUp${product._id}' > </div>
                                         </div> 
                                     </div>`;
     // Перевіряємо стан авторизації
@@ -64,4 +70,9 @@ function productCardRender(product) {
     const dataContainer = document.querySelector(".data-container");
     dataContainer.appendChild(productCard);
 
+    // Навішуємо обробники подій
+    attachEventHandler(`popUp${product._id}`, 'click', () => { popUp('Please log in', 'danger') });
+    attachEventHandler(`addToCart${product._id}`, 'click', () => { addToCart(product) });
+    attachEventHandler(`editProduct${product._id}`, 'click', () => { editProduct(product) });
+    attachEventHandler(`removeProduct${product._id}`, 'click', () => { removeProduct(product) });
 }

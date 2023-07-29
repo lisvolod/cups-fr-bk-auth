@@ -1,5 +1,6 @@
 .filter-container {
     position: relative;
+    top: 60px;
     width: 100%;
 }
 
@@ -18,19 +19,16 @@
 }
 
 .filter-category{
-    /* width: 23%; */
     flex: 1 1 auto;
     margin: 1px 2px;
 }
 
 .filter-search{
     flex: 4 1 auto;
-     /* width: 48%; */
-     margin: 1px 2px;
+    margin: 1px 2px;
 }
 
 .filter-sort{
-    /* width: 23%; */
     flex: 1 1 auto;
     margin: 1px 2px;
 }

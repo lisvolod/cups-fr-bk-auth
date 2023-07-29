@@ -1,13 +1,12 @@
-import express from "express";
-import router from "./routes/router.js";
 import cors from "cors";
-import dotenv from "dotenv"
+import dotenv from "dotenv";
+import express from "express";
 import connectToDB from "./models/DB_connection.js";
+import router from "./routes/router.js";
 
 dotenv.config();
 
 const app = express();
-
 
 // Налаштування CORS
 const allowedOrigins = process.env.ALLOWED_ORIGINS.split(',');

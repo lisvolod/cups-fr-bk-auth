@@ -1,6 +1,6 @@
-import User from "../models/userModel.js";
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
+import User from "../models/userModel.js";
 
 
 export const userRegister = async (req, res) => {
@@ -101,7 +101,7 @@ export const userLogout = async (req, res) => {
         // Видалення токенів з кукі
         res.clearCookie('accessToken', {sameSite: "none", secure: true});
         res.clearCookie('refreshToken', {sameSite: "none", secure: true});
-        res.status(200).json({ msg: 'Вихід здійснено' });
+        res.status(200).json({ msg: 'Logout completed' });
     } catch (err) {
         return res.status(500).json({msg: err.message})
     }
@@ -115,7 +115,7 @@ export const userLogin = async (req, res) => {
         // Перевірка чи існує користувач 
         User.findOne({email: userLoginEmail})
             .then(user => {
-                if(!user) return res.status(400).json({emailMsg: "Користувача не існує"})
+                if(!user) return res.status(400).json({emailMsg: "User doesn't exist"})
         
             // Перевірка паролю
             bcrypt.compare(userLoginPassword, user.password)
@@ -143,11 +143,11 @@ export const userLogin = async (req, res) => {
                         // res.status(200).json(logedUser);
                         res.status(200).json(logedUser); 
                     } else {
-                        res.status(400).json({pwdMsg: "Невірний пароль"})
+                        res.status(400).json({pwdMsg: "The password is incorrect"})
                     }
                 })
                 .catch(err => {
-                    res.status(500).json({ message: 'Помилка дешифрування паролю' });
+                    res.status(500).json({ message: 'Password decryption error' });
                   });
         })
 

@@ -1,8 +1,8 @@
-import formidable from "formidable";
-import { v2 as cloudinary } from 'cloudinary'
-import Product from "../models/productModel.js";
-import dotenv from 'dotenv';
 import Promise from 'bluebird';
+import { v2 as cloudinary } from 'cloudinary';
+import dotenv from 'dotenv';
+import formidable from "formidable";
+import Product from "../models/productModel.js";
 
 // Завантажуємо змінні середовища з файлу .env
 dotenv.config();
@@ -66,7 +66,7 @@ export const createAndEditProduct = async (req, res) => {
                     price:productPrice
                 };
                                   
-                // Перевіряємо чи проводилася зміна картинки на фронті
+                // Перевіряємо чи проводилася зміна картинки на клієнті
                 if (!originalFilename) {
                     // Якщо картинка не мінялася - додаємо в об'єкт старі поля
                     productData.image = oldImagePath;
@@ -86,18 +86,18 @@ export const createAndEditProduct = async (req, res) => {
                             cloudinary.uploader.destroy(oldCloudinaryPublicId);
                         } catch (error) {
                             console.error(error);
-                            res.status(401).json({ msg: 'Помилка видалення зображення з cloudinary' });
+                            res.status(401).json({ msg: 'Error deleting image from cloudinary' });
                         }
                     }) 
                     }   
                     catch (error) {
                         console.error(error);
-                        res.status(401).json({ msg: 'Помилка збереження зображення в cloudinary' });
+                        res.status(401).json({ msg: 'Error saving image to cloudinary' });
                     }
                 }
             } catch (error) {
                 console.error(error);
-                res.status(401).json({ msg: 'Помилка обробки даних форми' });
+                res.status(401).json({ msg: 'Form data parsing error' });
             }
         })
     } catch (error) {
@@ -107,7 +107,7 @@ export const createAndEditProduct = async (req, res) => {
 
 export const getAllProducts = async (req, res) => {
     // *** Пагінація ***
-    const page = req.query.page;  // Номер сторінки 
+    const page = req.query.page;                    // Номер сторінки 
     const perPage = process.env.PRODUCTS_PER_PAGE;  // Кількість документів на сторінці
     const skip = (page - 1) * perPage;              // Кількість записів в БД, які потрібно пропустити
     

@@ -1,10 +1,19 @@
+import { renderCalcCount, updateCartInDB } from "../cartAPI/cart.js";
+import { attachEventHandler, backURL, getUser, setUser } from "../config.js";
+import { dropDownClose } from "../modals/main.js";
+import { orderModal } from "../modals/orderModal.js";
+import { hidePagination } from "../pagination.js";
+import { popUp } from "../popup.js";
+import { getAndShowAllProducts } from "../productAPI/products.js";
+import { orderCardRender } from "./orderCard.js";
+
 // Підтвердження замовлення в корзині
-async function createOrder() {
+export const createOrder = async () => {
     try {
         const recipientName = document.forms['orderForm'].elements.recipientName.value;
         const deliveryAddress = document.forms['orderForm'].elements.deliveryAddress.value; 
         const user = getUser();
-    
+        // Формуємо тіло запиту
         const requestPayload = {
             userId: user._id,
             cart: user.cart,
@@ -47,14 +56,10 @@ async function createOrder() {
     }
 }
 
-document.forms['orderForm'].addEventListener('submit', (event) => {
-    event.preventDefault();
-    createOrder();
-})
-
-async function renderOrders() {
+export const renderOrders = async () => {
     //Закриваємо випадаюче меню в адаптиві 
     dropDownClose();
+    hidePagination();
     // Очищуємо контейнер кнопок
     const btnContainer = document.querySelector(".btn-container");
     btnContainer.innerHTML = ``;
@@ -86,8 +91,9 @@ async function renderOrders() {
                 dataContainer.innerHTML = `<div class="empy-errors">
                     <div class="empy-errors-item">No orders found yet. </div>
                     <div class="empy-errors-item">Visit the store and buy some products.</div>
-                    <button class="btn btn-secondary" onclick='getAndShowAllProducts()'>Go shopping ...</button>
-                </div>`
+                    <button class="btn btn-secondary" id="emptyOrderBtn" >Go shopping ...</button>
+                </div>`;
+                attachEventHandler('emptyOrderBtn', 'click', () => { getAndShowAllProducts() })
             }
         })
         .catch( err => {
@@ -96,5 +102,4 @@ async function renderOrders() {
     } catch (error) {
         console.error(error);
     }
-
 }

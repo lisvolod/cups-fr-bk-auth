@@ -1,3 +1,7 @@
+import { attachEventHandler } from "../config.js";
+import { userRegistetion } from "../userAPI/register.js";
+import { loginModal } from "./loginModal.js";
+import { CustomModal } from "./main.js";
 //
 // ********* Модальне вікно для реєстрації ************
 //
@@ -45,12 +49,73 @@ const registrationModalContent = `<form name="registerForm" method="post">
 
 const registrationModalFooter =`<div class="login-footer">
                                     <div>Already member? </div>
-                                    <div class="switch-link" onclick="switchToLogin()"> LogIn </div>
+                                    <div class="switch-link" id="switchToLoginPage"> LogIn </div>
                                 </div>`;
-const registrationModal = new CustomModal(registrationModalTitle, registrationModalContent, registrationModalFooter);
-registrationModal.create('rgstr');
+export const registrationModal = new CustomModal('rgstr', registrationModalTitle, registrationModalContent, registrationModalFooter);
 
-const switchToLogin = () => {
+registrationModal.create();
+
+export const switchToLogin = () => {
     registrationModal.close();
     loginModal.open();
 }
+
+attachEventHandler('switchToLoginPage', 'click', switchToLogin);
+
+// Функція валідації Email
+export const validateEmail = () => {
+    const email = document.getElementById('userRegEmail').value;
+    return new Promise((resolve, reject) => {
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        
+      if (!emailRegex.test(email)) {
+        document.getElementById('registerEmailError').innerText = 'Wrong email format';
+        // reject('Невірний формат email');
+      } else {
+        // Якщо email валідний, відправляємо успішний результат
+        resolve();
+      }
+    });
+}
+
+// Функція валідації для порівняння введеного паролю та підтвердження паролю
+export const validatePassword = () =>  {
+    const password = document.getElementById('userRegPassword').value;
+    const confirmPassword = document.getElementById('userRegConfirmPassword').value;
+    return new Promise((resolve, reject) => {
+      if (password !== confirmPassword) {
+        document.getElementById('registerPasswordError').innerText = "Passwords don't match";
+        // reject('Паролі не співпадають');
+      } else {
+        // Якщо паролі проходять валідацію, відправляємо успішний результат
+        resolve();
+      }
+    });
+  }
+
+/// Навішуємо обробники подій
+document.forms["registerForm"].addEventListener ('submit', async (e) => {
+    e.preventDefault();
+    try {
+        await validateEmail();
+        await validatePassword();
+        await userRegistetion();
+      } catch (error) {
+        console.log(error); // Помилка валідації пароля
+      }
+})
+
+// При втраті фокуса поля  валідуємо email
+userRegEmail.addEventListener('blur', () => {
+    validateEmail();
+})
+// Очищуємо повідомлення про помилки коли поля форми у фокусі 
+userRegEmail.addEventListener('focus', () => {
+    document.getElementById('registerEmailError').innerText = '';
+});
+userRegPassword.addEventListener('focus', () => {
+    document.getElementById('registerPasswordError').innerText = '';
+});
+userRegConfirmPassword.addEventListener('focus', () => {
+    document.getElementById('registerPasswordError').innerText = '';
+})

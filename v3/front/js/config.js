@@ -1,86 +1,61 @@
+import { renderFilterCategoriesOptions } from "./filter.js";
+import { renderProductCategoriesOptions } from "./modals/productModal.js";
 ///
 /// ***** Ендпойнт бекенду та робота з localStorage *****
 ///
 // const backURL = `https://cups-store.onrender.com`;
 // Змінити backURL на `http://localhost:4000` при запуску на локальному сервері;
-const backURL = `http://localhost:4000`;
+export const backURL = `http://localhost:4000`;
 
 // Робота з localStorage
 
-const getUser = () => {
+export const getUser = () => {
     return JSON.parse(localStorage.getItem('user'));
 };
 
-const setUser = async (user) => {
-    return new Promise((resolve, reject) => {
-        try {
-            localStorage.setItem('user', JSON.stringify(user));
-            resolve();
-        } catch (error) {
-            console.error(error);
-            reject();
-        }
-    })
+export const setUser = (user) => {
+    localStorage.setItem('user', JSON.stringify(user));
 }
 
-const getCategories = () => {
+export const getCategories = () => {
     return JSON.parse(localStorage.getItem('categories'));
 };
 
-const setCategories = async (categories) => {
-    return new Promise((resolve, reject) => {
-        try {
-            localStorage.setItem('categories', JSON.stringify(categories));
-            renderProductCategoriesOptions();
-            renderFilterCategoriesOptions(categories);
-            resolve();
-        } catch (error) {
-            console.error(error);
-            reject();
-        }
-    })
+export const setCategories =  (categories) => {
+    localStorage.setItem('categories', JSON.stringify(categories));
+    renderProductCategoriesOptions();
+    renderFilterCategoriesOptions(categories);
 }
 
-const getPage = () => {
+export const getPage = () => {
     return JSON.parse(localStorage.getItem('page'));
 }
 
 
-const setPage = async (page) => {
-    return new Promise((resolve, reject) => {
-        try {
-            localStorage.setItem('page', JSON.stringify(page));
-            resolve(page);
-            
-        } catch (error) {
-            console.error(error);
-            reject();
-        }
-    })
+export const setPage = (page) => {
+    localStorage.setItem('page', JSON.stringify(page));
 }
 
-const getPageCount = () => {
+export const getPageCount = () => {
     return JSON.parse(localStorage.getItem('pageCount'));
 }
 
 
-const setPageCount = async (pageCount) => {
-    return new Promise((resolve, reject) => {
-        try {
-            localStorage.setItem('pageCount', JSON.stringify(pageCount));
-            resolve(pageCount);
-            
-        } catch (error) {
-            console.error(error);
-            reject();
-        }
-    })
+export const setPageCount = (pageCount) => {
+    localStorage.setItem('pageCount', JSON.stringify(pageCount));
 }
 
-const clearStorage = async () => {
+export const clearStorage = async () => {
     localStorage.clear();
 };
 
+// Функція для навішування обробників подій
+export function attachEventHandler (elementId, eventType, method) {
+    const element = document.getElementById(elementId);
+    if (element) {
+      element.addEventListener(eventType, () => method());
+    }
+}
 
 
 

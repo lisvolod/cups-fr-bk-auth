@@ -1,4 +1,7 @@
-function orderCardRender(order) {
+import { attachEventHandler, backURL, getUser } from "../config.js";
+import { renderOrders } from "./order.js";
+
+export const  orderCardRender = (order) => {
     // console.log(order);
     // Перетворюємо формат часу створення ордеру
     // у звичний для України вигляд
@@ -76,11 +79,13 @@ function orderCardRender(order) {
                     <option value="completed">completed</option>
                     <option value="canceled">canceled</option>
                 </select>
-                <button class="btn btn-outline-primary btn-sm order-status-select-item-btm" onclick='orderStatusChange(${JSON.stringify(order._id)})'>Apply</button>
+                <button class="btn btn-outline-primary btn-sm order-status-select-item-btm" id="orderStatusChange${order._id}">Apply</button>
             </div>
         `;
         document.querySelector(`.order-status-container-${order._id}`).appendChild(orderStatusManage);
-        
+        // Навішуємо обробник
+        attachEventHandler(`orderStatusChange${order._id}`, 'click', () => { orderStatusChange(order._id) })
+
         // Сетимо статус замовлення у випадаючому списку
         document.getElementById(`order-status-select-${order._id}`).value = order.status;
     }

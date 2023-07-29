@@ -10,10 +10,10 @@ export const createOrder = async (req, res) => {
         cart
     }
     await Order.create(newOrder)
-            .then(res.status(200).json({ msg: 'Замовлення оформлено' }))
+            .then(res.status(200).json({ msg: 'Order completed successfully' }))
             .catch(error => {
-                console.error('Помилка при створенні користувача:', error);
-                res.status(401).json({ message: 'Помилка запису замовлення в БД' });
+                console.error('Creating order error:', error);
+                res.status(401).json({ message: 'Error saving the order in the database' });
               });
 }
 
@@ -31,8 +31,8 @@ export const getOrders = async (req, res) => {
                                 res.status(200).json(allOrders);
                             })
                             .catch ( err => {
-                                console.log('Помилка отримання всіх замовлень', err);
-                                res.status(401).json({ message: 'Помилка отримання всіх замовлень' });
+                                console.log('Failed to select all orders', err);
+                                res.status(401).json({ message: 'Failed to select all orders' });
                             })
                     } else {
                     // інакше - відправляємо замовлення авторизованого покупця
@@ -42,18 +42,18 @@ export const getOrders = async (req, res) => {
                                 res.status(200).json(userOrders);
                             })
                             .catch ( err => {
-                                console.log('Помилка отримання замовлень користувача', err);
-                                res.status(401).json({ message: 'Помилка отримання замовлень користувача' });
+                                console.log('Failed to select user orders', err);
+                                res.status(401).json({ message: 'Failed to select user orders' });
                             })
                     }
                 })
                 .catch(error => {
-                    console.error('Помилка отримання даних користувача:', error);
-                    res.status(401).json({ message: 'Помилка отримання даних користувача з БД' });
+                    console.error('Error retrieving user data from the database:', error);
+                    res.status(401).json({ message: 'Error retrieving user data from the database' });
                   });
         } catch (error) {
-            console.error('Помилка отримання userId:', error);
-            res.status(401).json({ message: 'Помилка отримання userId' });
+            console.error('Error retrieving userId:', error);
+            res.status(401).json({ message: 'Error retrieving userId' });
     }
 }
 
@@ -62,13 +62,13 @@ export const updateOrderStatus = async (req, res) => {
     const orderID = req.params.orderId;
     const status = req.body;
         await Order.findByIdAndUpdate(orderID, status)
-        .then( res.status(200).json({msg: "Статус замовлення оновлено"}))
+        .then( res.status(200).json({msg: "Order status updated"}))
         .catch( err => {
-            console.error('Помилка новлення статусу замовлення в БД:', err);
-            res.status(401).json({ msg: 'Помилка новлення статусу замовлення в БД' });
+            console.error('Error updating order status in database:', err);
+            res.status(401).json({ msg: 'Error updating order status in database' });
         })
     } catch (error) {
         console.log(error);
-        res.status(401).json({ message: 'Помилка оновлення статусу замовлення' });
+        res.status(401).json({ message: 'Error updating order status' });
     }
 }

@@ -1,32 +1,34 @@
+import { attachEventHandler, backURL, getCategories, setCategories } from "../config.js";
+import { createCatgoryModal, editCatgoryModal } from "../modals/categoriesModals.js";
+import { confirmModal, waitForRemoveButtonPress } from "../modals/confirmationModal.js";
+import { dropDownClose } from "../modals/main.js";
+import { hidePagination } from "../pagination.js";
+import { categoryCardRender } from "./categoryCard.js";
+
 // Рендер меню CATEGORIES для адміністратора
-const categoryRender = async () => {
-    //Закриваємо випадаюче меню в адаптиві 
+export const categoryRender = async () => {
+    // Закриваємо випадаюче меню в адаптиві 
     dropDownClose();
+    hidePagination();
     const btnContainer = document.querySelector(".btn-container");
     // Очищуємо контейнер кнопок
     btnContainer.innerHTML = ``;
-    btnContainer.innerHTML = `<button type="button" class="btn btn-secondary" id="createCtgBtn" onclick="createCatgoryModal.open()">Create New Category of Products</button>`;
-    
+    btnContainer.innerHTML = `<button type="button" class="btn btn-secondary" id="createCtgBtn" >Create New Category of Products</button>`;
+    attachEventHandler('createCtgBtn', 'click', () => { createCatgoryModal.open()} );
     // Очищуємо контейнер даних
     const dataContainer = document.querySelector(".data-container");
     dataContainer.innerHTML = "";        
-    
     // Створюємо контейнер для карточок категорій
     const categoryContainer = document.createElement("div");
     categoryContainer.classList.add("category-container");
     dataContainer.appendChild(categoryContainer);
-    
     // Перевіряємо, чи є категорії
+    // Якщо є - рендиримо карточки категорій
     const catArr = getCategories();
-    
-    // console.log(catArr);
-    
+
     if (catArr.length) {
         catArr.forEach(category => {
             dropDownClose();
-            
-            // Якщо є - рендиримо карточки категорій
-            
             categoryCardRender(category);
         });
     }
@@ -42,7 +44,7 @@ const categoryRender = async () => {
 }
 
 
-async function validateCategoryName(valuePath, errMsgPath) {
+const validateCategoryName = async (valuePath, errMsgPath) => {
     const category = document.getElementById(valuePath).value.trim();
     const regExp = /^\p{L}+$/u;
     const isValid = regExp.test(category);
@@ -55,7 +57,7 @@ async function validateCategoryName(valuePath, errMsgPath) {
     })
 }
 
-async function sendCategorytData(route, form, valuePath, errMsgPath, id) {
+const sendCategorytData = async (route, form, valuePath, errMsgPath, id) => {
     return new Promise ((resolve, reject) => {
         const categoryName = document.getElementById(valuePath).value.trim().toUpperCase();
         const reqBody = {
@@ -76,7 +78,6 @@ async function sendCategorytData(route, form, valuePath, errMsgPath, id) {
         .then(response => response.json())
         .then(data => {
             // Обробка відповіді від сервера
-            // Обробка повідомлення про наявну email
             if (data.msg) {
                 document.getElementById(`${errMsgPath}`).innerText =`${data.msg}`
             }
@@ -98,7 +99,7 @@ async function sendCategorytData(route, form, valuePath, errMsgPath, id) {
     
 }
 
-async function getAllCategoriesFromDB() {
+export const getAllCategoriesFromDB = async () => {
     return new Promise ( (resolve, reject) => {
         fetch (`${backURL}/category`, {
             method: 'GET',
@@ -114,7 +115,6 @@ async function getAllCategoriesFromDB() {
                 setCategories(data);
                 resolve(data);
             }
-            
         })
         .catch(err => {
             console.error(err);
@@ -124,7 +124,7 @@ async function getAllCategoriesFromDB() {
     
 }
 
-const removeCategory = async (category) => {
+export const removeCategory = async (category) => {
     const msg = document.getElementsByClassName('confirmation-message')[0];
     msg.innerHTML = `Are you sure you want to remove category <b>${category.name}</b>? </br>
     <b>ALL PRODUCTS</b> of this category will also be <b>REMOVED</b>.</br>
@@ -134,14 +134,12 @@ const removeCategory = async (category) => {
         try {
             confirmModal.open();
             await waitForRemoveButtonPress();    // Зупинити виконання до натискання кнопки
-            // let deleteParams = JSON.stringify({_id:a, cloudinaryPublicId:b})
             await fetch(`${backURL}/category/${category._id}`, {
                 method: "DELETE",
                 mode: 'cors',
-                credentials: 'include',                 // Don't forget to specify this if you need cookies
+                credentials: 'include',          // Don't forget to specify this if you need cookies
                 })
                 .then( async () => {
-                    removeButton.removeEventListener('click', () => {resolve();}); // Видалити обробник для економії пам'яті
                     confirmModal.close();
                     await getAllCategoriesFromDB();
                     categoryRender(); 
@@ -153,13 +151,11 @@ const removeCategory = async (category) => {
     })
 }
 
-
-const editCategory = async (category) => {
+export const editCategory = async (category) => {
     document.getElementById('editCategoryId').setAttribute("value", category._id);
     document.getElementById('editCategoryName').value = category.name;
     editCatgoryModal.open();
 }
-
 
 // Обробники відправки форм
 document.forms["createCategoryForm"].addEventListener ('submit', async (e) => {
@@ -179,12 +175,17 @@ document.forms["editCategoryForm"].addEventListener ('submit', async (e) => {
     categoryRender();
 })
 
-// Очищуємо повідомлення про помилки коли поля форми у фокусі 
+// // Очищуємо повідомлення про помилки коли поля форми у фокусі 
+const createCategoryName = document.getElementById('createCategoryName');
 createCategoryName.addEventListener('focus', () => {
     document.getElementById('createCategoryNameError').innerText = '';
 });
-
+const editCategoryName = document.getElementById('editCategoryName');
 editCategoryName.addEventListener('focus', () => {
     document.getElementById('editCategoryNameError').innerText = '';
 });
+
+
+
+
 
