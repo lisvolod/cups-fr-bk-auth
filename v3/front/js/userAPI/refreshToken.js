@@ -23,7 +23,7 @@ export const refreshToken = async () => {
             }
             if (data.message === 'Authorization error') {
                 // console.error(data.message, '- Please, LogIN');
-                rej(data);
+                rej("Please, LogIN", data);
             }
         })
         .catch(error => {
